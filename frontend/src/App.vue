@@ -1,25 +1,33 @@
 <template>
   <div class="container">
     <NavBar />
-    <div>
-      <h1>Home</h1>
+    <div class="main">
+      <TopBar :empresa="empresa" :sede="sede" />
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
+import TopBar from "./components/TopBar.vue";
 export default {
   name: "App",
   components: {
     NavBar,
+    TopBar,
+  },
+  data() {
+    return {
+      empresa: "Empresa",
+      sede: "Sede",
+    };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .container {
-  max-width: 1200px;
   width: 100%;
   display: flex;
   height: 100vh;
@@ -27,7 +35,10 @@ export default {
   justify-content: space-between;
 }
 
-.container div {
+.main {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
