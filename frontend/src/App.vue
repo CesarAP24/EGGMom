@@ -2,7 +2,7 @@
   <div class="container">
     <NavBar />
     <div class="main">
-      <TopBar :empresa="empresa" :sede="sede" />
+      <TopBar empresa="Empresa" sede="sede" />
       <router-view />
     </div>
   </div>
@@ -16,12 +16,6 @@ export default {
   components: {
     NavBar,
     TopBar,
-  },
-  data() {
-    return {
-      empresa: "Empresa",
-      sede: "Sede",
-    };
   },
 };
 </script>
