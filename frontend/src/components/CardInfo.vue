@@ -1,22 +1,30 @@
 <template>
   <div :class="'CardInfo' + (peligro ? ' peligro' : '')">
     <div class="TopContent">
-      <h2>{{ GroupName }}</h2>
-      <div>
+      <h2>{{ EjemplarName }}</h2>
+      <div :style="'display: ' + (peligro ? 'flex' : 'none')">
         <img src="../assets/peligro.svg" alt="peligro" width="19" />
       </div>
     </div>
-    <div class="CenterContent">
-      <div class="ImageGroup">
-        <img src="https://via.placeholder.com/150" alt="peligro" />
+    <div class="SupContent">
+      <div class="CenterContent">
+        <div class="ImageGroup">
+          <img src="https://via.placeholder.com/150" alt="peligro" />
+        </div>
       </div>
-      <div class="EjemplarName">
-        <p>{{ EjemplarName }}</p>
+      <div class="BottomContent">
+        <li class="temperatura">
+          <p>Temperatura:</p>
+          <p :class="peligroT ? ' danger' : ''">{{ temperatura }} °C</p>
+        </li>
+        <li class="humedad">
+          <p>Humedad:</p>
+          <p :class="peligroH ? ' danger' : ''">{{ humedad }} %</p>
+        </li>
       </div>
     </div>
-    <div class="BottomContent">
-      <p class="temperatura">Temperatura: {{ temperatura }} °C</p>
-      <p class="humedad">Humedad: {{ humedad }} %</p>
+    <div class="group">
+      <p>{{ GroupName }}</p>
     </div>
   </div>
 </template>
@@ -29,6 +37,8 @@ export default {
     EjemplarName: String,
     temperatura: Number,
     humedad: Number,
+    peligroT: Boolean,
+    peligroH: Boolean,
     peligro: Boolean,
   },
 };
@@ -36,17 +46,25 @@ export default {
 
 <style scoped>
 .CardInfo {
-  width: 210px;
+  width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
-  padding: 0 25px;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-  margin-left: 15px;
-  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0 30px 40px 30px;
+}
+
+.SupContent {
+  width: 100%;
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  border: 3px solid rgba(0, 0, 0, 0);
 }
 
 .TopContent {
@@ -54,8 +72,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding: 5px 0;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .CenterContent {
@@ -64,8 +82,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e0e0e0;
-  padding-top: 3px;
 }
 
 .EjemplarName {
@@ -74,29 +90,97 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid #e0e0e0;
   padding: 5px 0;
 }
 
 .BottomContent {
   width: 100%;
   display: flex;
-  padding: 20px 0;
+  margin-top: 10px;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 }
 
+.ImageGroup {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .peligro .TopContent img {
-  background-color: #000000;
   height: 25px;
   width: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 20px;
 }
 
-.peligro {
-  background-color: #ffebeb;
+.peligro .SupContent {
+  /*animacion de borde rojo*/
+  animation: border 1s infinite;
+}
+
+@keyframes border {
+  0% {
+    border: 3px solid rgba(0, 0, 0, 0);
+  }
+  50% {
+    border: 3px solid rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    border: 3px solid rgba(0, 0, 0, 0);
+  }
+}
+
+.group {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.group p {
+  font-size: 12px;
+  color: #9e9e9e;
+  font-weight: 500;
+}
+
+.temperatura,
+.humedad {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+  font-weight: 500;
+}
+
+.temperatura .danger,
+.humedad .danger {
+  color: #ff6320;
+  font-weight: 700;
+  animation: danger 1s infinite;
+}
+
+@keyframes danger {
+  0% {
+    color: #9e9e9e;
+  }
+  50% {
+    color: #ff6320;
+  }
+  100% {
+    color: #9e9e9e;
+  }
 }
 </style>

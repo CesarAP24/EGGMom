@@ -50,6 +50,15 @@ export default {
   overflow-y: scroll;
 }
 
+.content::-webkit-scrollbar {
+  width: 7px;
+  background: #f1f1f1;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
 .NavBarContainer {
   width: 200px;
   display: flex;

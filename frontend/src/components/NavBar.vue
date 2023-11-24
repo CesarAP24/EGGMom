@@ -17,7 +17,7 @@
         <router-link to="/ejemplares">Ejemplares</router-link>
       </div>
       <div class="option">
-        <img src="../assets/peligro.svg" alt="peligro" width="19" />
+        <img src="../assets/peligroWhite.svg" alt="peligro" width="19" />
         <router-link to="/peligros">Peligros</router-link>
       </div>
     </div>

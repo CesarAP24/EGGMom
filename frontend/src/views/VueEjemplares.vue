@@ -1,7 +1,8 @@
 <template>
   <div class="ejemplares-container">
     <div class="GrupoFiltro">
-      <select>
+      <label for="grupo">Filtrar por grupo:</label>
+      <select v-model="SelectedGroup">
         <option v-for="grupo in Grupos" :key="grupo.id" :value="grupo.name">
           {{ grupo.name }}
         </option>
@@ -10,12 +11,20 @@
     <div class="cards">
       <CardInfo
         v-for="ejemplar in Ejemplares"
+        :style="{
+          display:
+            SelectedGroup === ejemplar.group || !SelectedGroup
+              ? 'flex'
+              : 'none',
+        }"
         :key="ejemplar.id"
         :EjemplarName="ejemplar.name"
         :GroupName="ejemplar.group"
         :temperatura="ejemplar.temperatura"
         :humedad="ejemplar.humedad"
         :peligro="ejemplar.peligro"
+        :peligroH="ejemplar.peligroH"
+        :peligroT="ejemplar.peligroT"
       />
     </div>
   </div>
@@ -36,6 +45,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: false,
+          peligroH: false,
+          peligroT: false,
         },
         {
           id: 2,
@@ -44,6 +55,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: false,
+          peligroT: true,
         },
         {
           id: 3,
@@ -52,6 +65,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: false,
+          peligroT: true,
         },
         {
           id: 4,
@@ -60,6 +75,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: false,
+          peligroT: true,
         },
         {
           id: 5,
@@ -68,6 +85,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: true,
+          peligroT: true,
         },
         {
           id: 6,
@@ -76,6 +95,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: true,
+          peligroT: false,
         },
         {
           id: 7,
@@ -84,6 +105,8 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: true,
+          peligroT: false,
         },
         {
           id: 8,
@@ -91,7 +114,9 @@ export default {
           name: "Ejemplar 8",
           temperatura: 25,
           humedad: 50,
-          peligro: true,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
         },
         {
           id: 9,
@@ -100,6 +125,160 @@ export default {
           temperatura: 25,
           humedad: 50,
           peligro: true,
+          peligroH: true,
+          peligroT: false,
+        },
+        // grupo 2
+        {
+          id: 10,
+          group: "Grupo 2",
+          name: "Ejemplar 10",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 11,
+          group: "Grupo 2",
+          name: "Ejemplar 11",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 12,
+          group: "Grupo 2",
+          name: "Ejemplar 12",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 13,
+          group: "Grupo 2",
+          name: "Ejemplar 13",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 14,
+          group: "Grupo 2",
+          name: "Ejemplar 14",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 15,
+          group: "Grupo 2",
+          name: "Ejemplar 15",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 16,
+          group: "Grupo 2",
+          name: "Ejemplar 16",
+          temperatura: 25,
+          humedad: 50,
+          peligro: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 17,
+          group: "Grupo 2",
+          name: "Ejemplar 17",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        // grupo4
+        {
+          id: 18,
+          group: "Grupo 4",
+          name: "Ejemplar 18",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 19,
+          group: "Grupo 4",
+          name: "Ejemplar 19",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 20,
+          group: "Grupo 4",
+          name: "Ejemplar 20",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 21,
+          group: "Grupo 4",
+          name: "Ejemplar 21",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 22,
+          group: "Grupo 4",
+          name: "Ejemplar 22",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 23,
+          group: "Grupo 4",
+          name: "Ejemplar 23",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
+        },
+        {
+          id: 24,
+          group: "Grupo 4",
+          name: "Ejemplar 24",
+          temperatura: 25,
+          humedad: 50,
+          peligror: false,
+          peligroH: false,
+          peligroT: false,
         },
       ],
       Grupos: [
@@ -168,6 +347,7 @@ export default {
           humedadMax: 60,
         },
       ],
+      SelectedGroup: "",
     };
   },
 };
@@ -175,18 +355,25 @@ export default {
 
 <style scoped>
 .ejemplares-container {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px;
 }
 .GrupoFiltro {
   width: 100%;
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
-  margin: 20px 0px;
-  padding: 0px 16px;
+  margin: 20px 0px 0px 0px;
+  padding: 0px 40px;
+}
+.GrupoFiltro label {
+  font-size: 20px;
+  font-weight: 550;
+  color: #333;
+  margin-right: 10px;
 }
 select {
   width: 15%;
@@ -204,6 +391,5 @@ select {
   align-items: center;
   margin-top: 30px;
   flex-wrap: wrap;
-  padding: 0px 50px;
 }
 </style>

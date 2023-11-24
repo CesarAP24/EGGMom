@@ -25,7 +25,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   background-color: #f3f3f3;
-  padding: 0 25px;
+  padding: 15px 25px;
   height: 80px;
   border-bottom: 1px solid #e0e0e0;
 }

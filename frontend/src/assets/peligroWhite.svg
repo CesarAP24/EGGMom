@@ -58,7 +58,7 @@
      transform="translate(-298.00826,-186.47316)"
      style="display:inline">
     <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ff6320;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
        d="m 308.08639,186.50231 -12.92726,19.81593 a 1.3122198,1.3122198 61.671457 0 0 1.09391,2.02918 l 25.05248,0.0979 a 1.3692693,1.3692693 118.72397 0 0 1.15663,-2.11052 l -12.76624,-19.82764 a 0.95900419,0.95900419 0.17160397 0 0 -1.60952,-0.005 z"
        id="path55"
        inkscape:transform-center-x="-3.181382"
@@ -68,7 +68,7 @@
        inkscape:original-d="m 308.89487,185.263 -15.05336,23.075 29.98586,0.11714 z"
        transform="translate(3.8929749,1.2303409)" />
     <ellipse
-       style="opacity:1;fill:#ff6320;fill-opacity:1;stroke:#ff6320;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
        id="path57"
        cx="312.79559"
        cy="205.43254"
@@ -76,7 +76,7 @@
        ry="0.82829255" />
     <text
        xml:space="preserve"
-       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;opacity:1;fill:#ff6320;fill-opacity:1;stroke:#ff6320;stroke-width:0.684546;stroke-dasharray:none;stroke-opacity:1"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.684546;stroke-dasharray:none;stroke-opacity:1"
        x="307.26178"
        y="207.54732"
        id="text58"
@@ -85,6 +85,6 @@
          id="tspan58"
          x="307.26178"
          y="207.54732"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ff6320;fill-opacity:1;stroke:#ff6320;stroke-width:0.684546;stroke-opacity:1">!</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.684546;stroke-opacity:1">!</tspan></text>
   </g>
 </svg>

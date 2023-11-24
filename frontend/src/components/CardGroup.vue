@@ -5,8 +5,14 @@
       <img src="https://via.placeholder.com/150" alt="peligro" />
     </div>
     <div class="info">
-      <p>Temp: {{ temperaturaMin }} - {{ temperaturaMax }} °C</p>
-      <p>Hum: {{ humedadMin }} - {{ humedadMax }} %</p>
+      <li>
+        <p>Temperatura(°C)</p>
+        <p>[{{ temperaturaMin }} - {{ temperaturaMax }}]</p>
+      </li>
+      <li>
+        <p>Humedad (%)</p>
+        <p>[{{ humedadMin }} - {{ humedadMax }}]</p>
+      </li>
     </div>
   </div>
 </template>
@@ -26,19 +32,30 @@ export default {
 
 <style scoped>
 .CardGroup {
-  width: 210x;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
-  padding: 0 25px;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-  margin-left: 15px;
-  margin-top: 15px;
-  border: 1px solid black;
+  padding: 0 20px;
+  margin: 20px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  transition: 0.3s;
 }
+
+.CardGroup:hover {
+  border: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+  transition: 0.3s;
+}
+
+.CardGroup img {
+  width: 150px;
+  margin: 20px 15px;
+  height: 150px;
+  border-radius: 5px;
+}
+
 .CardGroup h2 {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -49,5 +66,30 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 15px 0;
+}
+
+.CardGroup .info {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 15px 0;
+}
+
+.CardGroup .info li {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  justify-content: space-between;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.CardGroup .info li p {
+  font-size: 14px;
+  font-weight: 550;
+  color: #333;
 }
 </style>

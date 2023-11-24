@@ -68,7 +68,7 @@ export default {
 
 <style scoped>
 .peligros-container {
-  width: 90%;
+  width: 95%;
   display: flex;
   flex-direction: row;
   align-items: center;

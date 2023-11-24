@@ -158,19 +158,31 @@ export default {
 }
 .cards {
   display: flex;
-  width: 100%;
+  width: 95%;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
   overflow-x: scroll;
+  padding: 0 20px;
+  margin: 0 20px;
+}
+.cards::-webkit-scrollbar {
+  /*estilo minimalista moderno*/
+  width: 5px;
+  height: 5px;
+  background-color: #f5f5f5;
+}
+.cards::-webkit-scrollbar-thumb {
+  /*estilo barra*/
+  border-radius: 10px;
+  background-color: #ff6320;
 }
 .form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: baseline;
-  margin: 40px 20px 20px 50px;
-  background-color: rgb(255, 251, 234);
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.03);
   padding: 30px 20px;
@@ -180,36 +192,41 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 100%;
+  width: 80%;
 }
 
 .campos {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
   margin-bottom: 0px;
+  padding-left: 15px;
 }
 
 h2 {
   margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 .form form .campo {
   display: flex;
-  flex-direction: column;
-  margin: 15px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 10px;
+  width: 30%;
 }
 .form form .campo input {
-  margin-bottom: 20px;
-  padding: 7px;
-  border: 1px solid #002290;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
-  margin: 5px;
+  padding: 10px;
 }
 .form form .campo label {
-  margin-left: 8px;
+  margin-right: 10px;
+  font-size: 15px;
+  font-weight: 500;
 }
 .input {
   display: flex;
@@ -233,7 +250,16 @@ h2 {
   font-size: 15px;
   cursor: pointer;
   color: white;
-  background-color: rgb(17, 210, 146);
-  width: 80px;
+  background-color: #ff6320;
+  border: 1px solid #ff6320;
+  transition: 0.3s;
+  padding: 10px 30px;
+  margin-top: 20px;
+}
+
+.boton button:hover {
+  background-color: white;
+  color: #ff6320;
+  transition: 0.3s;
 }
 </style>
