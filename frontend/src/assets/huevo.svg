@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="11.11206"
+   height="14.978363"
+   viewBox="0 0 11.11206 14.978363"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="path2.svg"
+   inkscape:export-filename="canastaBlanca.svg"
+   inkscape:export-xdpi="118.51784"
+   inkscape:export-ydpi="118.51784"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showguides="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-300.27232,-223.55563)"
+     style="display:inline">
+    <path
+       style="display:inline;fill:#ffffff;stroke:#ffffff;stroke-width:0.650283;stroke-dasharray:none;stroke-opacity:1"
+       d="m 305.71323,223.88121 c 4.01314,-0.0636 5.24299,6.55861 5.30767,8.34146 0.0646,1.78292 0.51786,5.92188 -4.98401,5.98551 -5.5076,0.0637 -5.38811,-4.26706 -5.43717,-5.6671 -0.0643,-1.84658 1.3593,-8.34149 5.11351,-8.65987 z"
+       id="path3-9"
+       sodipodi:nodetypes="csssc"
+       inkscape:export-filename=".\canastitaBlanca.svg"
+       inkscape:export-xdpi="118.51784"
+       inkscape:export-ydpi="118.51784" />
+  </g>
+</svg>

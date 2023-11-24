@@ -6,30 +6,25 @@
           <path fill="#fff" d="M0 0h24v24H0V0z" fill-opacity="0"></path>
           <path fill="#fff" d="M12 3L4 9v12h16V9l-8-6zm6 15H6v-2h12v2z"></path>
         </svg>
-        <a href="#">Home</a>
+        <router-link to="/">Inicio</router-link>
       </div>
       <div class="option">
-        <svg height="24" viewBox="0 0 24 24" width="24">
-          <circle cx="12" cy="12" fill="#fff" opacity=".3" r="8"></circle>
-        </svg>
-        <a href="#">Grupos</a>
+        <img src="../assets/canastitaBlanca.svg" alt="canasta" width="24" />
+        <router-link to="/grupos">Grupos</router-link>
       </div>
       <div class="option">
-        <svg height="24" viewBox="0 0 24 24" width="24">
-          <circle cx="12" cy="12" fill="#fff" opacity=".3" r="8"></circle>
-        </svg>
-        <a href="#">Ejemplares</a>
+        <img src="../assets/huevo.svg" id="huevo" alt="huevo" height="21" />
+        <router-link to="/ejemplares">Ejemplares</router-link>
       </div>
       <div class="option">
-        <svg height="24" viewBox="0 0 24 24" width="24">
-          <circle cx="12" cy="12" fill="#fff" opacity=".3" r="8"></circle>
-        </svg>
-        <a href="#">Peligros</a>
+        <img src="../assets/peligro.svg" alt="peligro" width="19" />
+        <router-link to="/peligros">Peligros</router-link>
       </div>
     </div>
     <div class="bottom">
       <div class="option">
-        <a href="#">Configuración</a>
+        <img src="../assets/tuerquita.svg" alt="tuerca" width="22" />
+        <router-link to="/configuracion">Configuración</router-link>
       </div>
       <div class="option">
         <a href="#">Cerrar sesión</a>
@@ -51,7 +46,7 @@ export default {
   height: 100vh;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
+  width: 100%;
 }
 
 .option {
@@ -67,6 +62,10 @@ export default {
   margin-right: 10px;
 }
 
+.option img {
+  margin-right: 10px;
+}
+
 .option a {
   color: #fff;
   text-decoration: none;
@@ -74,7 +73,17 @@ export default {
   font-weight: 500;
 }
 
+#huevo {
+  margin-right: 12xpx;
+  margin-left: 5px;
+}
+
 .option:hover {
   background-color: #555;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #fff;
 }
 </style>

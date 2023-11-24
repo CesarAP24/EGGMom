@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="29.395857"
+   height="24.046978"
+   viewBox="0 0 29.395857 24.046978"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="path2.svg"
+   inkscape:export-filename="canastaBlanca.svg"
+   inkscape:export-xdpi="118.51784"
+   inkscape:export-ydpi="118.51784"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showguides="false" />
+  <defs
+     id="defs1">
+    <color-profile
+       name="sRGB-IEC61966-2.1"
+       xlink:href="../../../Windows/system32/spool/drivers/color/sRGB%20Color%20Space%20Profile.icm"
+       id="color-profile2" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect56"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,1.4797044,0,1 @ F,0,0,1,0,2.4115493,0,1 @ F,0,0,1,0,2.5218648,0,1"
+       radius="0"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-298.00826,-186.47316)"
+     style="display:inline">
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
+       d="m 308.08639,186.50231 -12.92726,19.81593 a 1.3122198,1.3122198 61.671457 0 0 1.09391,2.02918 l 25.05248,0.0979 a 1.3692693,1.3692693 118.72397 0 0 1.15663,-2.11052 l -12.76624,-19.82764 a 0.95900419,0.95900419 0.17160397 0 0 -1.60952,-0.005 z"
+       id="path55"
+       inkscape:transform-center-x="-3.181382"
+       inkscape:transform-center-y="-38.334191"
+       sodipodi:nodetypes="cccc"
+       inkscape:path-effect="#path-effect56"
+       inkscape:original-d="m 308.89487,185.263 -15.05336,23.075 29.98586,0.11714 z"
+       transform="translate(3.8929749,1.2303409)" />
+    <ellipse
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.689;stroke-dasharray:none;stroke-opacity:1"
+       id="path57"
+       cx="312.79559"
+       cy="205.43254"
+       rx="0.78687793"
+       ry="0.82829255" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.684546;stroke-dasharray:none;stroke-opacity:1"
+       x="307.26178"
+       y="207.54732"
+       id="text58"
+       transform="scale(1.0055567,0.994474)"><tspan
+         sodipodi:role="line"
+         id="tspan58"
+         x="307.26178"
+         y="207.54732"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.1171px;font-family:Calibri;-inkscape-font-specification:'Calibri, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.684546;stroke-opacity:1">!</tspan></text>
+  </g>
+</svg>

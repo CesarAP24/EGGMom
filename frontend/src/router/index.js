@@ -1,7 +1,36 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import HomeView from "../views/HomeView.vue";
+import VueInicio from "../views/VueInicio.vue";
 
 const routes = [
+  {
+    path: "/",
+    name: "inicio",
+    component: VueInicio,
+  },
+
+  {
+    path: "/grupos",
+    name: "grupos",
+    component: () => import("../views/VueGrupos.vue"),
+  },
+
+  {
+    path: "/ejemplares",
+    name: "ejemplares",
+    component: () => import("../views/VueEjemplares.vue"),
+  },
+
+  {
+    path: "/peligros",
+    name: "peligros",
+    component: () => import("../views/VuePeligros.vue"),
+  },
+
+  {
+    path: "/configuracion",
+    name: "configuracion",
+    component: () => import("../views/VueConfiguracion.vue"),
+  },
   // {
   //   path: "/",
   //   name: "home",
