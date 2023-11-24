@@ -6,8 +6,14 @@
     <div class="main">
       <TopBar empresa="Empresa" sede="sede" />
       <div class="content">
-        <router-view />
+        <router-view :showHideWindow="showHideWindow" />
       </div>
+    </div>
+  </div>
+  <div class="show notShow" id="ventanaEmergente">
+    <div>
+      <h1>hola</h1>
+      <button @click="showHideWindow(0)">cerrar</button>
     </div>
   </div>
 </template>
@@ -20,6 +26,19 @@ export default {
   components: {
     NavBar,
     TopBar,
+  },
+  data() {
+    return {
+      id: 0,
+    };
+  },
+  methods: {
+    showHideWindow(id) {
+      this.id = id;
+      //ocultar o mostrar ventana
+      let show = document.querySelector("#ventanaEmergente");
+      show.classList.toggle("notShow");
+    },
   },
 };
 </script>
@@ -67,5 +86,41 @@ export default {
   justify-content: space-between;
   background-color: #333;
   height: 100vh;
+}
+
+.show {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.03);
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.notShow {
+  width: 0px;
+  height: 0px;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.show div {
+  width: 50%;
+  height: 50%;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>

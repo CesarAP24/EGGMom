@@ -1,5 +1,8 @@
 <template>
-  <div :class="'CardInfo' + (peligro ? ' peligro' : '')">
+  <div
+    :class="'CardInfo' + (peligro ? ' peligro' : '')"
+    @click="showHideWindow(id)"
+  >
     <div class="TopContent">
       <h2>{{ EjemplarName }}</h2>
       <div :style="'display: ' + (peligro ? 'flex' : 'none')">
@@ -33,6 +36,7 @@
 export default {
   name: "CardInfo",
   props: {
+    id: String,
     GroupName: String,
     EjemplarName: String,
     temperatura: Number,
@@ -40,6 +44,7 @@ export default {
     peligroT: Boolean,
     peligroH: Boolean,
     peligro: Boolean,
+    showHideWindow: Function,
   },
 };
 </script>

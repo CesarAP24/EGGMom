@@ -3,11 +3,13 @@
     <CardInfo
       v-for="ejemplar in Ejemplares"
       :key="ejemplar.id"
+      :id="ejemplar.id"
       :GroupName="ejemplar.group"
       :EjemplarName="ejemplar.name"
       :temperatura="ejemplar.temperatura"
       :humedad="ejemplar.humedad"
       :peligro="ejemplar.peligro"
+      :showHideWindow="showHideWindow"
     />
   </div>
 </template>
@@ -62,6 +64,9 @@ export default {
         },
       ],
     };
+  },
+  props: {
+    showHideWindow: Function,
   },
 };
 </script>

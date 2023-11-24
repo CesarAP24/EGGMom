@@ -18,6 +18,7 @@
               : 'none',
         }"
         :key="ejemplar.id"
+        :id="ejemplar.id"
         :EjemplarName="ejemplar.name"
         :GroupName="ejemplar.group"
         :temperatura="ejemplar.temperatura"
@@ -25,6 +26,7 @@
         :peligro="ejemplar.peligro"
         :peligroH="ejemplar.peligroH"
         :peligroT="ejemplar.peligroT"
+        :showHideWindow="showHideWindow"
       />
     </div>
   </div>
@@ -349,6 +351,9 @@ export default {
       ],
       SelectedGroup: "",
     };
+  },
+  props: {
+    showHideWindow: Function,
   },
 };
 </script>
