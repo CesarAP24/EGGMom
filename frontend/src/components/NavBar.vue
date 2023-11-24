@@ -46,7 +46,7 @@ export default {
   height: 100vh;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
+  width: 100%;
 }
 
 .option {

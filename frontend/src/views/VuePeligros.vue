@@ -1,11 +1,78 @@
 <template>
   <div class="peligros-container">
-    <h1 id="title">PELIGROS</h1>
+    <CardInfo
+      v-for="ejemplar in Ejemplares"
+      :key="ejemplar.id"
+      :EjemplarName="ejemplar.name"
+      :GroupName="ejemplar.group"
+      :temperatura="ejemplar.temperatura"
+      :humedad="ejemplar.humedad"
+      :peligro="ejemplar.peligro"
+    />
   </div>
 </template>
 
 <script>
+import CardInfo from "@/components/CardInfo.vue";
 export default {
   name: "VuePeligros",
+  components: { CardInfo },
+  data() {
+    return {
+      Ejemplares: [
+        {
+          id: 1,
+          group: "Grupo 1",
+          name: "Ejemplar 1",
+          temperatura: 25,
+          humedad: 50,
+          peligro: true,
+        },
+        {
+          id: 2,
+          group: "Grupo 2",
+          name: "Ejemplar 2",
+          temperatura: 25,
+          humedad: 50,
+          peligro: true,
+        },
+        {
+          id: 3,
+          group: "Grupo 1",
+          name: "Ejemplar 3",
+          temperatura: 25,
+          humedad: 50,
+          peligro: true,
+        },
+        {
+          id: 4,
+          group: "Grupo 1",
+          name: "Ejemplar 4",
+          temperatura: 25,
+          humedad: 50,
+          peligro: true,
+        },
+        {
+          id: 5,
+          group: "Grupo 1",
+          name: "Ejemplar 5",
+          temperatura: 25,
+          humedad: 50,
+          peligro: true,
+        },
+      ],
+    };
+  },
 };
 </script>
+
+<style scoped>
+.peligros-container {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+</style>

@@ -1,9 +1,13 @@
 <template>
   <div class="container">
-    <NavBar />
+    <div class="NavBarContainer">
+      <NavBar />
+    </div>
     <div class="main">
       <TopBar empresa="Empresa" sede="sede" />
-      <router-view />
+      <div class="content">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -30,9 +34,29 @@ export default {
 }
 
 .main {
+  width: calc(100% - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-shrink: 1;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.NavBarContainer {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #333;
+  height: 100vh;
 }
 </style>
