@@ -61,11 +61,33 @@ export default {
 
 <style scoped>
 .nav {
-  background-color: #333;
+  box-shadow: 0 0 65px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  background: linear-gradient(283deg, #303030 0%, #404040 100%);
   display: flex;
   height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+}
+
+.nav:hover {
+  transform: translateX(10px);
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.4);
+}
+
+#showNavBarMobile {
+  display: none;
+}
+
+.sup {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
 }
 

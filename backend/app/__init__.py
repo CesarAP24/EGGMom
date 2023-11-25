@@ -27,8 +27,8 @@ dynamoDB = boto3.resource(
     'dynamodb', 
     aws_access_key_id=config['aws_access_key_id'], 
     aws_secret_access_key=config['aws_secret_access_key'], 
-    aws_session_token=config['aws_session_token'], 
-    region_name=config['region']
+    aws_session_token=config['aws_session_token'],
+    region_name='us-east-1'
     )
 # App
 
@@ -261,7 +261,7 @@ def create_app(test_config=None):
         else:
             return jsonify({"success": True, "data": data}), code
         
-    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos/<grupo_id>/objetos/<objeto_id>', methods=['GET']) # Listar sedes
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos/<grupo_id>/objetos/<objeto_id>', methods=['GET']) 
     def get_objeto(tenant_id, sede_id, grupo_id, objeto_id):
         code = 200
         partition_key = tenant_id + "+" + sede_id + "+" + grupo_id
@@ -291,7 +291,7 @@ def create_app(test_config=None):
         else:
             return jsonify({"success": True, "data": data}), code
     
-    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos/<grupo_id>/objetos/<objeto_id>/registros/<registro_id>', methods=['GET']) # Listar sedes
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos/<grupo_id>/objetos/<objeto_id>/registros/<registro_id>', methods=['GET']) 
     def get_registro(tenant_id, sede_id, grupo_id, objeto_id, registro_id):
         code = 200
         partition_key = tenant_id + "+" + sede_id + "+" + grupo_id + "+" + objeto_id
@@ -320,6 +320,166 @@ def create_app(test_config=None):
         else:
             data = data[0]
             return jsonify({"success": True, "data": data}), code
+
+
+    # obtener objetos de todos los grupos de una sede
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/objetos', methods=['GET'])
+    def get_objetos_sede(tenant_id, sede_id):
+        code = 200
+        partition_key = tenant_id + "+" + sede_id
+        try:
+            table = dynamoDB.Table('Objetos')
+            # si su tenant_id+sede_id+grupo_id contiene partition_key
+            response = table.scan(
+                FilterExpression=Attr('tenant_id+sede_id+grupo_id').contains(partition_key)
+            )
+
+            data = response
+            if data:
+                data = response['Items']
+                if len(data) == 0:
+                    code = 404
+                    message = "No hay objetos"
+                    return jsonify({"success": False, "message": message}), code
+            else:
+                code = 404
+                message = "No se pudo acceder a la tabla"
+                return jsonify({"success": False, "message": message}), code
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+
+        if code != 200:
+            abort(code)
+        else:
+            return jsonify({"success": True, "data": data}), code
+
+
+    # obtener arduinos disponibles
+    @app.route('/empresa/<tenant_id>/arduinos', methods=['GET']) 
+    def get_arduinos(tenant_id):
+        code = 200
+        partition_key = tenant_id
+        try:
+            table = dynamoDB.Table('Arduinos')
+            response = table.scan(
+                FilterExpression=Attr('tenant_id').eq(partition_key)
+            )
+            data = response['Items']
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+
+        if code == 400:
+            return jsonify({"success": False, "message": message}), code
+        elif code != 200:
+            abort(code)
+        else:
+            return jsonify({"success": True, "data": data}), code 
+
+
+    # POST -----------------------------------------------------------------
+
+    # create group
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos', methods=['POST'])
+    def create_grupo(tenant_id, sede_id):
+        code = 200
+        try:
+            data = request.form
+            table = dynamoDB.Table('Grupos')
+            item = {
+                'tenant_id+sede_id': tenant_id + "+" + sede_id,
+                'grupo_id': data['nombre'],
+                'humedad': {
+                    'min': data['humedad_min'],
+                    'max': data['humedad_max']
+                },
+                'temperatura': {
+                    'min': data['temperatura_min'],
+                    'max': data['temperatura_max']
+                }
+            }
+            table.put_item(Item=item)
+            data = item
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+        if code == 400:
+            return jsonify({"success": False, "message": message}), code
+        elif code == 409:
+            return jsonify({"success": False, "message": message}), code
+        elif code != 200:
+            abort(code)
+        else:
+            return jsonify({"success": True, "data": data}), code
+
+    # create object
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/grupos/<grupo_id>/objetos', methods=['POST'])
+    def create_objeto(tenant_id, sede_id, grupo_id):
+        code = 200
+        try:
+            data = request.form
+            table = dynamoDB.Table('Objetos')
+            item = {
+                'tenant_id+sede_id+grupo_id': tenant_id + "+" + sede_id + "+" + grupo_id,
+                'objeto_id': data['nombre'],
+                'ARDUINO_ID': data['arduino_id'],
+            }
+
+
+            #revisar el grupo
+            table = dynamoDB.Table('Grupos')
+            response = table.scan(
+                FilterExpression=Attr('tenant_id+sede_id').eq(tenant_id + "+" + sede_id) & Attr('grupo_id').eq(grupo_id)
+            )
+
+            grupo = response['Items']
+            if grupo:
+                if len(grupo) == 0:
+                    return jsonify({"success": False, "message": "No existe el grupo"}), 400
+                else:
+                    grupo = grupo[0]
+
+            # revisar si existe el arduino_id
+            table = dynamoDB.Table('Arduinos')
+            # scan by tenant_id and arduino_id
+            response = table.scan(
+                FilterExpression=Attr('tenant_id').eq(tenant_id) & Attr('ARDUINO_ID').eq(data['arduino_id']) & Attr('available').eq(True)
+            )
+
+            arduino = response
+
+            if arduino:
+                arduino = response['Items']
+                if len(arduino) == 0:
+                    return jsonify({"success": False, "message": "No existe el arduino"}), 400
+                else:
+                    arduino = arduino[0]
+                    arduino['available'] = False
+                    table.put_item(Item=arduino)
+            else:
+                code = 404
+                message = "No se pudo acceder a la tabla"
+                return jsonify({"success": False, "message": message}), code
+
+            
+            # revisar si existe el grupo_id
+            table = dynamoDB.Table('Objetos')
+            table.put_item(Item=item)
+            data = item
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+    
+        if code == 400:
+            return jsonify({"success": False, "message": message}), code
+        elif code == 409:
+            return jsonify({"success": False, "message": message}), code
+        elif code != 200:
+            abort(code)
+        else:
+            return jsonify({"success": True, "data": data}), code
+
 
     # HANDLE ERROR ---------------------------------------------------------
     @app.errorhandler(404)

@@ -7,6 +7,9 @@
           {{ grupo.name }}
         </option>
       </select>
+      <button @click="showCrearEjemplar()" id="crear-ejemplar">
+        Crear Ejemplar
+      </button>
     </div>
     <div class="cards">
       <CardInfo
@@ -18,6 +21,7 @@
               : 'none',
         }"
         :key="ejemplar.id"
+        :id="ejemplar.id"
         :EjemplarName="ejemplar.name"
         :GroupName="ejemplar.group"
         :temperatura="ejemplar.temperatura"
@@ -25,6 +29,7 @@
         :peligro="ejemplar.peligro"
         :peligroH="ejemplar.peligroH"
         :peligroT="ejemplar.peligroT"
+        :showHideWindow="showHideWindow"
       />
     </div>
   </div>
@@ -350,6 +355,10 @@ export default {
       SelectedGroup: "",
     };
   },
+  props: {
+    showHideWindow: Function,
+    showCrearEjemplar: Function,
+  },
 };
 </script>
 
@@ -391,5 +400,44 @@ select {
   align-items: center;
   margin-top: 30px;
   flex-wrap: wrap;
+}
+
+#crear-ejemplar {
+  width: 15%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  font-size: 16px;
+  font-weight: 550;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 20px;
+}
+
+#crear-ejemplar:hover {
+  background-color: #ff6320;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .GrupoFiltro {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px 20px;
+  }
+  .GrupoFiltro label {
+    margin-bottom: 10px;
+  }
+  select {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  #crear-ejemplar {
+    width: 100%;
+    margin-left: 0px;
+  }
 }
 </style>

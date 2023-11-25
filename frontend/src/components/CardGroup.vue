@@ -1,8 +1,8 @@
 <template>
-  <div class="CardGroup">
+  <div class="CardGroup" @click="goToGroup">
     <h2>{{ groupName }}</h2>
     <div>
-      <img src="https://via.placeholder.com/150" alt="peligro" />
+      <img src="../assets/defaultGruposp.png" alt="peligro" />
     </div>
     <div class="info">
       <li>
@@ -26,6 +26,13 @@ export default {
     temperaturaMax: Number,
     humedadMin: Number,
     humedadMax: Number,
+  },
+  methods: {
+    goToGroup() {
+      this.$router.push({
+        name: "ejemplares",
+      });
+    },
   },
 };
 </script>
@@ -88,8 +95,9 @@ export default {
 }
 
 .CardGroup .info li p {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 550;
   color: #333;
+  margin-right: 10px;
 }
 </style>

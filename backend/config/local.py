@@ -1,7 +1,10 @@
-config = {
-    # Configurar credenciales directamente (NO RECOMENDADO para entornos de producción)
-    'aws_access_key_id': 'ASIA4QHKXAS7WUD6EKXT',
-    'aws_secret_access_key': 'gftlQvC1e1cXy8eQhegfd2zeudKvbt7raaBQYnlt',
-    'aws_session_token':'FwoGZXIvYXdzEFsaDGTD7R+7YopVNm3GryLKAaBYEcXOZnxjbRa+xEVqKA4IeqFBiDb7nCRaaOP3cb0T+YH23K9fyGJp4/SlV+nxD8cyAkmvyWkQnkLMOLcei6977O3WaEbpOjOpW50DCcTgLuyJaovEA9ouFY3u7GWKvOQBULxst7JFoweS3pws4Yqxi/xQaBzWhU4O1Ak2CjX4OVxt89Wh3+EChAngmPhEIDYV2PsICbtvYyv02eUDSNWcfd9ZsYCBI8MPEYQHwFK6RhwPXVbrRpOfmOtfT9J1pculPCOzLBOdJOIo+5nZqgYyLbEc3IojUan9GKQspdHgsIjjtb8ObT0r7TtCH3R7CKC7JlI2K8BdysCZb/5EKA==',
-    'region': 'us-east-1'  # Reemplaza con tu región
-}
+#credenciales de aws
+texto = """
+aws_access_key_id=ASIA4QHKXAS7TAGZ7BAT
+aws_secret_access_key=VKncJmHdnJ5NlfslvHrZpqk4eajMly1/1RetEODc
+aws_session_token=FwoGZXIvYXdzEDIaDCytbHlcNntOL0KPOSLKAbcvnFXzml20Z0O+hOjMaTdtwFXrCaXBpWNYW9XarxlibWoutzSzQo8DYH0osuadACnVWT2E+njPJhiicZ7FKk0LGcRwccYtuQZs1PWO3QCB2XRL41erjU7+tFKIbFxhBKkkGN/paMBxZgnFMltAucuzT3T9PEJdqpeehJF3vQmrJt+WNQTuGnPMM4ehPlqSCMDMDiTKcs1PE6ctcstlALLorHMID3punilN3wy000sA2kkH8bOizWZc5aicga+/GqYWgg5tRjR8BkAos82IqwYyLWlb93p0OU5mNCbMmAGZSDiNwSTyfNhuwgJBqJ/4x5xL8YAcyBcArjQv84suQQ==
+"""
+
+texto = texto.split('\n')
+texto = {line.split('=')[0]: line.split('=')[1] for line in texto if line}
+config = texto

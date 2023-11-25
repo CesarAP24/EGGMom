@@ -1,5 +1,8 @@
 <template>
-  <div :class="'CardInfo' + (peligro ? ' peligro' : '')">
+  <div
+    :class="'CardInfo' + (peligro ? ' peligro' : '')"
+    @click="showHideWindow(id)"
+  >
     <div class="TopContent">
       <h2>{{ EjemplarName }}</h2>
       <div :style="'display: ' + (peligro ? 'flex' : 'none')">
@@ -9,7 +12,9 @@
     <div class="SupContent">
       <div class="CenterContent">
         <div class="ImageGroup">
-          <img src="https://via.placeholder.com/150" alt="peligro" />
+          <!-- si peligro entonces  defaultHuevo.gif sino defaultHuevo.png -->
+          <img v-if="peligro" src="../assets/defaultHuevo.gif" alt="huevo" />
+          <img v-else src="../assets/defaultPlanta.jpg" alt="huevo" />
         </div>
       </div>
       <div class="BottomContent">
@@ -33,6 +38,7 @@
 export default {
   name: "CardInfo",
   props: {
+    id: String,
     GroupName: String,
     EjemplarName: String,
     temperatura: Number,
@@ -40,6 +46,7 @@ export default {
     peligroT: Boolean,
     peligroH: Boolean,
     peligro: Boolean,
+    showHideWindow: Function,
   },
 };
 </script>
@@ -182,5 +189,11 @@ export default {
   100% {
     color: #9e9e9e;
   }
+}
+
+.ImageGroup img {
+  width: 130px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 </style>
