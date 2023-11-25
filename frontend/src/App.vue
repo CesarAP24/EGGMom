@@ -10,21 +10,47 @@
       </div>
     </div>
   </div>
+  <div class="login" :style="{ display: login ? 'none' : 'flex' }">
+    <VueLogin />
+  </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
 import TopBar from "./components/TopBar.vue";
+import VueLogin from "./views/VueLogin.vue";
 export default {
   name: "App",
   components: {
     NavBar,
     TopBar,
+    VueLogin,
+  },
+  data() {
+    return {
+      login: false,
+    };
+  },
+  created() {
+    if (document.cookie) {
+      this.login = true;
+    }
   },
 };
 </script>
 
 <style scoped>
+.login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  align-items: center;
+}
 .container {
   width: 100%;
   display: flex;
