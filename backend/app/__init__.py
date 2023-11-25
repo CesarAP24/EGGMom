@@ -37,8 +37,7 @@ def create_app(test_config=None):
     app.secret_key = 'pneumonoultramicroscopicsilicovolcanoconiosis'
 
     with app.app_context():
-        
-        CORS(app, origins="*", supports_credentials=True)
+        CORS(app, origins=['http://localhost:3000', 'http://localhost:5000', 'http://localhost:8080'], supports_credentials=True)
 
     @app.after_request
     def after_request(response):
@@ -385,7 +384,7 @@ def create_app(test_config=None):
     def create_grupo(tenant_id, sede_id):
         code = 200
         try:
-            data = request.form
+            data = request.json
             table = dynamoDB.Table('Grupos')
             item = {
                 'tenant_id+sede_id': tenant_id + "+" + sede_id,
@@ -472,6 +471,7 @@ def create_app(test_config=None):
             code = 500
     
         if code == 400:
+
             return jsonify({"success": False, "message": message}), code
         elif code == 409:
             return jsonify({"success": False, "message": message}), code
@@ -479,7 +479,6 @@ def create_app(test_config=None):
             abort(code)
         else:
             return jsonify({"success": True, "data": data}), code
-
 
     # HANDLE ERROR ---------------------------------------------------------
     @app.errorhandler(404)

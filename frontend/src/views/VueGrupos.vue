@@ -14,13 +14,13 @@
     <!--form-->
     <div class="form">
       <h2>Crea un grupo:</h2>
-      <form action="">
+      <form id="formulario-grupo-bonito">
         <div class="campos">
           <div class="campo">
             <label>Nombre: </label>
             <input
               type="text"
-              name="name"
+              name="nombre"
               id="name"
               placeholder="Nombre del grupo"
             />
@@ -30,7 +30,7 @@
             <input
               type="text"
               placeholder="Temperatura mínima"
-              name="temperaturaMin"
+              name="temperatura_min"
               id="temperaturaMin"
             />
           </div>
@@ -39,7 +39,7 @@
             <input
               type="text"
               placeholder="Temperatura máxima"
-              name="temperaturaMax"
+              name="temperatura_max"
               id="temperaturaMax"
             />
           </div>
@@ -48,7 +48,7 @@
             <input
               type="text"
               placeholder="Humedad mínima"
-              name="humedadMin"
+              name="humedad_min"
               id="humedadMin"
             />
           </div>
@@ -57,13 +57,15 @@
             <input
               type="text"
               placeholder="Humedad máxima"
-              name="humedadMax"
+              name="humedad_max"
               id="humedadMax"
             />
           </div>
         </div>
         <div class="boton">
-          <button type="submit">Crear</button>
+          <button type="submit" @click="crearGrupo" id="btn-create-group">
+            Crear
+          </button>
         </div>
       </form>
     </div>
@@ -77,76 +79,69 @@ export default {
   components: { CardGroup },
   data() {
     return {
-      grupos: [
-        {
-          id: 1,
-          name: "Grupo 1",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 2,
-          name: "Grupo 2",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 3,
-          name: "Grupo 3",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 4,
-          name: "Grupo 4",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 5,
-          name: "Grupo 5",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 6,
-          name: "Grupo 6",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 7,
-          name: "Grupo 7",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 8,
-          name: "Grupo 8",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-      ],
+      grupos: [],
     };
   },
   props: {
     showHideWindow: Function,
+  },
+  methods: {
+    crearGrupo(e) {
+      e.preventDefault();
+      let form = document.getElementById("formulario-grupo-bonito");
+      form = new FormData(form);
+      form = Object.fromEntries(form);
+      form = JSON.stringify(form);
+
+      //poner boton disables
+      const button = document.getElementById("btn-create-group");
+      button.disabled = true;
+
+      fetch("http://localhost:5000/empresa/utec/sedes/cs_facu/grupos", {
+        method: "POST",
+        body: form,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          button.disabled = false;
+          this.grupos.push({
+            id: data["data"]["grupo_id"],
+            name: data["data"]["grupo_id"],
+            temperaturaMin: data["data"]["temperatura"]["min"],
+            temperaturaMax: data["data"]["temperatura"]["max"],
+            humedadMin: data["data"]["humedad"]["min"],
+            humedadMax: data["data"]["humedad"]["max"],
+          });
+        })
+        .catch((err) => console.log(err));
+    },
+    loadGroups(sede) {
+      fetch("http://localhost:5000/empresa/utec/sedes/" + sede + "/grupos")
+        .then((res) => res.json())
+        .then((data) => {
+          this.grupos = [];
+          console.log(data);
+          let grupos = data["data"];
+          grupos.forEach((grupo) => {
+            this.grupos.push({
+              id: grupo["grupo_id"],
+              name: grupo["grupo_id"],
+              temperaturaMin: grupo["temperatura"]["min"],
+              temperaturaMax: grupo["temperatura"]["max"],
+              humedadMin: grupo["humedad"]["min"],
+              humedadMax: grupo["humedad"]["max"],
+            });
+          });
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+  mounted() {
+    this.loadGroups("cs_facu");
   },
 };
 </script>
@@ -159,6 +154,14 @@ export default {
   justify-content: center;
   width: 100%;
 }
+
+#btn-create-group:disabled {
+  background-color: #e0e0e0;
+  color: #9e9e9e;
+  border: 1px solid #e0e0e0;
+  cursor: not-allowed;
+}
+
 .cards {
   display: flex;
   width: 95%;
