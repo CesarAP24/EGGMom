@@ -27,7 +27,9 @@
         <router-link to="/configuracion">Configuración</router-link>
       </div>
       <div class="option">
-        <a href="#">Cerrar sesión</a>
+        <router-link to="/login" @click="cerrarSesion"
+          >Cerrar Sesión</router-link
+        >
       </div>
     </div>
   </div>
@@ -36,6 +38,24 @@
 <script>
 export default {
   name: "NavBar",
+  methods: {
+    cerrarSesion() {
+      this.deleteAllCookies();
+    },
+    deleteAllCookies() {
+      var cookies = document.cookie.split(";");
+
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie =
+          name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      }
+
+      window.location.href = "/";
+    },
+  },
 };
 </script>
 

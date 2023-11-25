@@ -69,22 +69,28 @@
       </div>
     </div>
   </div>
+  <div class="login" :style="{ display: login ? 'none' : 'flex' }">
+    <VueLogin />
+  </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
 import TopBar from "./components/TopBar.vue";
 import SupNavbar from "./components/SupNavbar.vue";
+import VueLogin from "./views/VueLogin.vue";
 export default {
   name: "App",
   components: {
     NavBar,
     TopBar,
     SupNavbar,
+    VueLogin,
   },
   data() {
     return {
       id: 0,
+      login: false,
       grupos: [
         {
           id: 1,
@@ -125,10 +131,28 @@ export default {
       show2.classList.toggle("notShow");
     },
   },
+  created() {
+    if (document.cookie) {
+      this.login = true;
+    } else {
+      this.login = false;
+    }
+  },
 };
 </script>
 
 <style scoped>
+.login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  align-items: center;
+}
 .container {
   width: 100%;
   display: flex;
