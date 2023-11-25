@@ -1,62 +1,53 @@
 <template>
   <div class="nav">
-    <div class="sup">
-      <div class="option">
+    <div class="option">
+      <router-link to="/">
         <svg height="24" viewBox="0 0 24 24" width="24">
           <path fill="#fff" d="M0 0h24v24H0V0z" fill-opacity="0"></path>
           <path fill="#fff" d="M12 3L4 9v12h16V9l-8-6zm6 15H6v-2h12v2z"></path>
         </svg>
-        <router-link to="/">Inicio</router-link>
-      </div>
-      <div class="option">
-        <img src="../assets/canastitaBlanca.svg" alt="canasta" width="24" />
-        <router-link to="/grupos">Grupos</router-link>
-      </div>
-      <div class="option">
-        <img src="../assets/huevo.svg" id="huevo" alt="huevo" height="21" />
-        <router-link to="/ejemplares">Ejemplares</router-link>
-      </div>
-      <div class="option">
-        <img src="../assets/peligroWhite.svg" alt="peligro" width="19" />
-        <router-link to="/peligros">Peligros</router-link>
-      </div>
+      </router-link>
     </div>
-    <div class="bottom">
-      <div class="option">
+    <div class="option">
+      <router-link to="/grupos">
+        <img src="../assets/canastitaBlanca.svg" alt="canasta" width="24" />
+      </router-link>
+    </div>
+    <div class="option">
+      <router-link to="/ejemplares">
+        <img src="../assets/huevo.svg" id="huevo" alt="huevo" height="21" />
+      </router-link>
+    </div>
+    <div class="option">
+      <router-link to="/peligros">
+        <img src="../assets/peligroWhite.svg" alt="peligro" width="19" />
+      </router-link>
+    </div>
+    <div class="option">
+      <router-link to="/configuracion">
         <img src="../assets/tuerquita.svg" alt="tuerca" width="22" />
-        <router-link to="/configuracion">Configuración</router-link>
-      </div>
-      <div class="option">
-        <a href="#">Cerrar sesión</a>
-      </div>
+      </router-link>
+    </div>
+    <div class="option">
+      <a href="#">Cerrar sesión</a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "NavBar",
+  name: "SupNavbar",
 };
 </script>
 
 <style scoped>
 .nav {
-  box-shadow: 0 0 65px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  background: linear-gradient(283deg, #303030 0%, #404040 100%);
+  background-color: #333;
   display: flex;
-  height: 100vh;
-  flex-direction: column;
+  width: 100%;
+  flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  transition: all 0.5s ease-in-out;
-}
-
-.nav:hover {
-  transform: translateX(10px);
-  position: relative;
-  transition: all 0.5s ease-in-out;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.4);
 }
 
 #showNavBarMobile {

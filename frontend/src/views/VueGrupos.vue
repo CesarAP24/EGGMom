@@ -145,6 +145,9 @@ export default {
       ],
     };
   },
+  props: {
+    showHideWindow: Function,
+  },
 };
 </script>
 
@@ -165,6 +168,7 @@ export default {
   overflow-x: scroll;
   padding: 0 20px;
   margin: 0 20px;
+  flex-wrap: nowrap;
 }
 .cards::-webkit-scrollbar {
   /*estilo minimalista moderno*/

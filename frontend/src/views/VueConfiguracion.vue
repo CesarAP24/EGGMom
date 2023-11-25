@@ -1,16 +1,10 @@
 <template>
-  <div class="configuracion-container">
-    h,piujh
-    <GraficaLineas />
-  </div>
+  <div class="configuracion-container"></div>
 </template>
 
 <script>
-import GraficaLineas from "@/components/GraficaLineas.vue";
-
 export default {
   name: "VueConfiguracion",
-  components: { GraficaLineas },
 };
 </script>
 
