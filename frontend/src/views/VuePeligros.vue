@@ -6,10 +6,13 @@
       :id="ejemplar.id"
       :EjemplarName="ejemplar.name"
       :GroupName="ejemplar.group"
-      :temperatura="ejemplar.temperatura"
-      :humedad="ejemplar.humedad"
-      :peligro="ejemplar.peligro"
       :showHideWindow="showHideWindow"
+      :loadCookie="loadCookie"
+      :tempMax="ejemplar.tempMax"
+      :tempMin="ejemplar.tempMin"
+      :humMax="ejemplar.humMax"
+      :humMin="ejemplar.humMin"
+      :hideIfSecure="ejemplar.hideIfSecure"
     />
   </div>
 </template>
@@ -21,52 +24,69 @@ export default {
   components: { CardInfo },
   data() {
     return {
-      Ejemplares: [
-        {
-          id: 1,
-          group: "Grupo 1",
-          name: "Ejemplar 1",
-          temperatura: 25,
-          humedad: 50,
-          peligro: true,
-        },
-        {
-          id: 2,
-          group: "Grupo 2",
-          name: "Ejemplar 2",
-          temperatura: 25,
-          humedad: 50,
-          peligro: true,
-        },
-        {
-          id: 3,
-          group: "Grupo 1",
-          name: "Ejemplar 3",
-          temperatura: 25,
-          humedad: 50,
-          peligro: true,
-        },
-        {
-          id: 4,
-          group: "Grupo 1",
-          name: "Ejemplar 4",
-          temperatura: 25,
-          humedad: 50,
-          peligro: true,
-        },
-        {
-          id: 5,
-          group: "Grupo 1",
-          name: "Ejemplar 5",
-          temperatura: 25,
-          humedad: 50,
-          peligro: true,
-        },
-      ],
+      Ejemplares: [],
     };
   },
   props: {
     showHideWindow: Function,
+    loadCookie: Function,
+  },
+  methods: {
+    loadEjemplares(sede) {
+      let empresa = this.loadCookie("empresa");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          this.Grupos = [];
+          this.Ejemplares = [];
+          let grupos = data["data"];
+          grupos.forEach((grupo) => {
+            //llenar la lista Grupos
+            this.Grupos.push({
+              id: grupo["grupo_id"],
+              name: grupo["grupo_id"],
+            });
+            //fetch de ejemplares(objeto) por cada grupo
+            fetch(
+              "http://localhost:5000/empresa/" +
+                empresa +
+                "/sedes/" +
+                sede +
+                "/grupos/" +
+                grupo["grupo_id"] +
+                "/objetos"
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                let ejemplares = data["data"];
+                console.log(grupo);
+                ejemplares.forEach((ejemplar) => {
+                  this.Ejemplares.push({
+                    id: ejemplar["objeto_id"],
+                    group: grupo["grupo_id"],
+                    name: ejemplar["objeto_id"],
+                    tempMax: grupo["temperatura"]["max"],
+                    tempMin: grupo["temperatura"]["min"],
+                    humMax: grupo["humedad"]["max"],
+                    humMin: grupo["humedad"]["min"],
+                    hideIfSecure: true,
+                  });
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+    },
+  },
+  mounted() {
+    let sede = this.loadCookie("token");
+    this.loadEjemplares(sede);
   },
 };
 </script>

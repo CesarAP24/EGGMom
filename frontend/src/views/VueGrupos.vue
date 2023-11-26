@@ -62,6 +62,7 @@
             />
           </div>
         </div>
+        <p id="errorCrearGrupo"></p>
         <div class="boton">
           <button type="submit" @click="crearGrupo" id="btn-create-group">
             Crear
@@ -84,6 +85,7 @@ export default {
   },
   props: {
     showHideWindow: Function,
+    loadCookie: Function,
   },
   methods: {
     crearGrupo(e) {
@@ -97,13 +99,25 @@ export default {
       const button = document.getElementById("btn-create-group");
       button.disabled = true;
 
-      fetch("http://localhost:5000/empresa/utec/sedes/cs_facu/grupos", {
-        method: "POST",
-        body: form,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      document.getElementById("errorCrearGrupo").innerHTML = "";
+
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
+
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos",
+        {
+          method: "POST",
+          body: form,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -117,10 +131,22 @@ export default {
             humedadMax: data["data"]["humedad"]["max"],
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          button.disabled = false;
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Error al crear el grupo";
+        });
     },
     loadGroups(sede) {
-      fetch("http://localhost:5000/empresa/utec/sedes/" + sede + "/grupos")
+      let empresa = this.loadCookie("empresa");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos"
+      )
         .then((res) => res.json())
         .then((data) => {
           this.grupos = [];
@@ -141,12 +167,20 @@ export default {
     },
   },
   mounted() {
-    this.loadGroups("cs_facu");
+    let sede = this.loadCookie("token");
+    this.loadGroups(sede);
   },
 };
 </script>
 
 <style scoped>
+#errorCrearGrupo {
+  color: red;
+  font-size: 15px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
 .grupos-container {
   display: flex;
   flex-direction: column;

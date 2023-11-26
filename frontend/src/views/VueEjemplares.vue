@@ -29,6 +29,7 @@
         :humMax="ejemplar.humMax"
         :humMin="ejemplar.humMin"
         :showHideWindow="showHideWindow"
+        :loadCookie="loadCookie"
       />
     </div>
   </div>
@@ -41,145 +42,26 @@ export default {
   components: { CardInfo },
   data() {
     return {
-      Ejemplares: [
-        {
-          id: 15,
-          group: "Grupo 2",
-          name: "Ejemplar 15",
-          temperatura: 25,
-          humedad: 50,
-          peligro: false,
-          peligroH: false,
-          peligroT: false,
-        },
-        {
-          id: 16,
-          group: "Grupo 2",
-          name: "Ejemplar 16",
-          temperatura: 25,
-          humedad: 50,
-          peligro: false,
-          peligroH: false,
-          peligroT: false,
-        },
-        {
-          id: 17,
-          group: "Grupo 2",
-          name: "Ejemplar 17",
-          temperatura: 25,
-          humedad: 50,
-          peligror: false,
-          peligroH: false,
-          peligroT: false,
-        },
-        // grupo4
-        {
-          id: 18,
-          group: "Grupo 4",
-          name: "Ejemplar 18",
-          temperatura: 25,
-          humedad: 50,
-          peligror: false,
-          peligroH: false,
-          peligroT: false,
-        },
-        {
-          id: 23,
-          group: "Grupo 4",
-          name: "Ejemplar 23",
-          temperatura: 25,
-          humedad: 50,
-          peligror: false,
-          peligroH: false,
-          peligroT: false,
-        },
-        {
-          id: 24,
-          group: "Grupo 4",
-          name: "Ejemplar 24",
-          temperatura: 25,
-          humedad: 50,
-          peligror: false,
-          peligroH: false,
-          peligroT: false,
-        },
-      ],
-      Grupos: [
-        {
-          id: 10,
-          name: "Grupo 1",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 20,
-          name: "Grupo 2",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 30,
-          name: "Grupo 3",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 40,
-          name: "Grupo 4",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 50,
-          name: "Grupo 5",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 60,
-          name: "Grupo 6",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 70,
-          name: "Grupo 7",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-        {
-          id: 80,
-          name: "Grupo 8",
-          temperaturaMin: 20,
-          temperaturaMax: 30,
-          humedadMin: 40,
-          humedadMax: 60,
-        },
-      ],
+      Ejemplares: [],
+      Grupos: [],
       SelectedGroup: "",
     };
   },
   props: {
     showHideWindow: Function,
     showCrearEjemplar: Function,
+    loadCookie: Function,
   },
   methods: {
     loadEjemplares(sede) {
-      fetch("http://localhost:5000/empresa/utec/sedes/" + sede + "/grupos")
+      let empresa = this.loadCookie("empresa");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos"
+      )
         .then((response) => response.json())
         .then((data) => {
           this.Grupos = [];
@@ -193,7 +75,9 @@ export default {
             });
             //fetch de ejemplares(objeto) por cada grupo
             fetch(
-              "http://localhost:5000/empresa/utec/sedes/" +
+              "http://localhost:5000/empresa/" +
+                empresa +
+                "/sedes/" +
                 sede +
                 "/grupos/" +
                 grupo["grupo_id"] +
@@ -221,7 +105,8 @@ export default {
     },
   },
   mounted() {
-    this.loadEjemplares("cs_facu");
+    let sede = this.loadCookie("token");
+    this.loadEjemplares(sede);
   },
 };
 </script>
