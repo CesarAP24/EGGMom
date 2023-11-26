@@ -1,44 +1,57 @@
 <template>
   <div class="grafica-container">
-    Holiiii
-    <!--<Bar :chart-data="chart - data"></Bar>-->
+    <canvas id="myChart"></canvas>
   </div>
 </template>
 
 <script>
-/*
-import { Line } from "vue-chartjs";
+import Chart from "chart.js/auto";
 export default {
-  extends: Line,  
+  name: "GraficaLineas",
+  props: {
+    labels: Array,
+    temperaturas: Array,
+    humedades: Array,
+  },
   data() {
     return {
       datacollection: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
+        labels: this.labels,
         datasets: [
           {
-            label: "Data One",
-            backgroundColor: "#f87979",
-            data: [40, 39, 10, 40, 39, 80, 40],
+            label: "Temperatura",
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            data: this.temperaturas,
+          },
+          {
+            label: "Humedad",
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            data: this.humedades,
           },
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      },
+      options: {},
     };
   },
   mounted() {
-    this.renderChart(this.datacollection, this.options); // renderChart is a method of the parent class
+    let myChart = new Chart(document.getElementById("myChart"), {
+      type: "line",
+      data: this.datacollection,
+      options: this.options,
+    });
+    myChart.update();
   },
 };
-*/
 </script>
+
+<style scoped>
+.grafica-container {
+  width: 100%;
+  height: 100%;
+}
+
+#myChart {
+  width: 100%;
+  height: 100%;
+}
+</style>
