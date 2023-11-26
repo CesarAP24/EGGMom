@@ -45,7 +45,7 @@
         </button>
       </div>
       <div class="crear-ejemplar-form">
-        <form>
+        <form id="crear-ejemplar-formulario">
           <label for="name">Nombre</label>
           <input type="text" id="name" name="name" placeholder="Nombre" />
           <label for="grupo-select">Grupo</label>
@@ -64,7 +64,9 @@
               {{ arduino.id }}
             </option>
           </select>
-          <button type="submit">Crear</button>
+          <button type="submit" id="btn-crear-ejemplar" @click="crearEjemplar">
+            Crear
+          </button>
         </form>
       </div>
     </div>
@@ -129,6 +131,17 @@ export default {
       console.log("hola");
       let show2 = document.querySelector("#CrearEjemplar");
       show2.classList.toggle("notShow");
+    },
+    crearEjemplar(e) {
+      e.preventDefault();
+      let form = document.getElementById("crear-ejemplar-formulario");
+      form = new FormData(form);
+      form = Object.fromEntries(form);
+      form = JSON.stringify(form);
+      console.log(form);
+      //disable
+      const button = document.getElementById("btn-crear-ejemplar");
+      button.disabled = true;
     },
   },
   created() {
