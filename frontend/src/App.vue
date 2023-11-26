@@ -177,7 +177,7 @@ export default {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
       fetch(
-        "http://localhost:5000/empresa/" +
+        "http://3.211.42.61:5000/empresa/" +
           empresa +
           "/sedes/" +
           sede +
@@ -207,7 +207,7 @@ export default {
     },
     loadArduinos() {
       let empresa = this.loadCookie("empresa");
-      fetch("http://localhost:5000/empresa/" + empresa + "/arduinos", {
+      fetch("http://3.211.42.61:5000/empresa/" + empresa + "/arduinos", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -252,7 +252,7 @@ export default {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
       fetch(
-        "http://localhost:5000/empresa/" +
+        "http://3.211.42.61:5000/empresa/" +
           empresa +
           "/sedes/" +
           sede +
@@ -288,7 +288,7 @@ export default {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
       fetch(
-        `http://localhost:5000/empresa/${empresa}/sedes/${sede}/grupos/${grupo}/objetos/${objeto}/registros`
+        `http://3.211.42.61:5000/empresa/${empresa}/sedes/${sede}/grupos/${grupo}/objetos/${objeto}/registros`
       )
         .then((response) => response.json())
         .then((data) => {

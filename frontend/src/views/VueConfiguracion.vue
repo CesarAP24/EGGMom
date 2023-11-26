@@ -67,7 +67,7 @@ export default {
         const empresa = this.loadCookie("token");
         const sede = this.loadCookie("token");
         const url =
-          "http://localhost:5000/empresa/" +
+          "http://3.211.42.61:5000/empresa/" +
           empresa +
           "/sedes/" +
           sede +

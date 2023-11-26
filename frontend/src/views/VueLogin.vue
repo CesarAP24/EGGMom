@@ -50,7 +50,7 @@ export default {
       data = JSON.stringify(data);
       console.log(data);
 
-      fetch("http://localhost:5000/empresa/" + empresa + "/login", {
+      fetch("http://3.211.42.61:5000/empresa/" + empresa + "/login", {
         method: "POST",
         body: data,
         headers: {
