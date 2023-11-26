@@ -41,12 +41,68 @@ export default {
     id: String,
     GroupName: String,
     EjemplarName: String,
-    temperatura: Number,
-    humedad: Number,
-    peligroT: Boolean,
-    peligroH: Boolean,
-    peligro: Boolean,
     showHideWindow: Function,
+    tempMax: Number,
+    tempMin: Number,
+    humMax: Number,
+    humMin: Number,
+  },
+  methods: {
+    loadCards() {
+      this.actualizarDatos(this.GroupName, this.id);
+
+      setInterval(() => {
+        this.actualizarDatos(this.GroupName, this.id);
+      }, 100000);
+    },
+    actualizarDatos(grupo, id_objeto) {
+      fetch(
+        "http://localhost:5000/empresa/utec/sedes/cs_facu/grupos/" +
+          grupo +
+          "/objetos/" +
+          id_objeto +
+          "/registros"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          //registro más reciente
+          let registro = data["data"];
+          let ultimo_registro = registro[registro.length - 1];
+          this.temperatura = ultimo_registro["temperatura"];
+          this.humedad = ultimo_registro["humedad"];
+          this.peligroH = false;
+          this.peligroT = false;
+          console.log(this.temperatura, this.humedad);
+          console.log(this.tempMax, this.tempMin, this.humMax, this.humMin);
+          if (
+            this.temperatura > this.tempMax ||
+            this.temperatura < this.tempMin
+          ) {
+            this.peligroT = true;
+          }
+          if (this.humedad > this.humMax || this.humedad < this.humMin) {
+            this.peligroH = true;
+          }
+          if (this.peligroH || this.peligroT) {
+            this.peligro = true;
+          } else {
+            this.peligro = false;
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+  data() {
+    return {
+      temperatura: 0,
+      humedad: 0,
+      peligro: false,
+      peligroT: false,
+      peligroH: false,
+    };
+  },
+  created() {
+    this.loadCards();
   },
 };
 </script>

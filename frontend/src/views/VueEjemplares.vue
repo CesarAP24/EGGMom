@@ -24,11 +24,10 @@
         :id="ejemplar.id"
         :EjemplarName="ejemplar.name"
         :GroupName="ejemplar.group"
-        :temperatura="ejemplar.temperatura"
-        :humedad="ejemplar.humedad"
-        :peligro="ejemplar.peligro"
-        :peligroH="ejemplar.peligroH"
-        :peligroT="ejemplar.peligroT"
+        :tempMax="ejemplar.tempMax"
+        :tempMin="ejemplar.tempMin"
+        :humMax="ejemplar.humMax"
+        :humMin="ejemplar.humMin"
         :showHideWindow="showHideWindow"
       />
     </div>
@@ -358,6 +357,52 @@ export default {
   props: {
     showHideWindow: Function,
     showCrearEjemplar: Function,
+  },
+  methods: {
+    loadEjemplares(sede) {
+      fetch("http://localhost:5000/empresa/utec/sedes/" + sede + "/grupos")
+        .then((response) => response.json())
+        .then((data) => {
+          this.Grupos = [];
+          this.Ejemplares = [];
+          let grupos = data["data"];
+          grupos.forEach((grupo) => {
+            //llenar la lista Grupos
+            this.Grupos.push({
+              id: grupo["grupo_id"],
+              name: grupo["grupo_id"],
+            });
+            //fetch de ejemplares(objeto) por cada grupo
+            fetch(
+              "http://localhost:5000/empresa/utec/sedes/" +
+                sede +
+                "/grupos/" +
+                grupo["grupo_id"] +
+                "/objetos"
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                let ejemplares = data["data"];
+                console.log(grupo);
+                ejemplares.forEach((ejemplar) => {
+                  this.Ejemplares.push({
+                    id: ejemplar["objeto_id"],
+                    group: grupo["grupo_id"],
+                    name: ejemplar["objeto_id"],
+                    tempMax: grupo["temperatura"]["max"],
+                    tempMin: grupo["temperatura"]["min"],
+                    humMax: grupo["humedad"]["max"],
+                    humMin: grupo["humedad"]["min"],
+                  });
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+    },
+  },
+  mounted() {
+    this.loadEjemplares("cs_facu");
   },
 };
 </script>
