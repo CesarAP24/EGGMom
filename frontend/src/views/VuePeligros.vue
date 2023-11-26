@@ -14,17 +14,23 @@
       :humMin="ejemplar.humMin"
       :hideIfSecure="ejemplar.hideIfSecure"
     />
+    <PantallaCarga v-if="cargando" />
   </div>
 </template>
 
 <script>
 import CardInfo from "@/components/CardInfo.vue";
+import PantallaCarga from "@/components/PantallaCarga.vue";
 export default {
   name: "VuePeligros",
-  components: { CardInfo },
+  components: {
+    CardInfo,
+    PantallaCarga,
+  },
   data() {
     return {
       Ejemplares: [],
+      cargando: false,
     };
   },
   props: {
@@ -78,6 +84,7 @@ export default {
                     hideIfSecure: true,
                   });
                 });
+                this.cargando = false;
               })
               .catch((err) => console.log(err));
           });
@@ -86,6 +93,7 @@ export default {
   },
   mounted() {
     let sede = this.loadCookie("token");
+    this.cargando = true;
     this.loadEjemplares(sede);
   },
 };
