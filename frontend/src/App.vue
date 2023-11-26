@@ -19,9 +19,14 @@
     </div>
   </div>
   <div class="show notShow" id="ventanaEmergente">
-    <div>
+    <div class="container-grafica">
       <h1>Ejemplar Data</h1>
       <button @click="showHideWindow(0)">cerrar</button>
+      <GraficaLineas
+        :labels="labels"
+        :temperaturas="temperaturas"
+        :humedades="humedades"
+      />
     </div>
   </div>
   <div class="show notShow" id="CrearEjemplar">
@@ -77,6 +82,7 @@
 </template>
 
 <script>
+import GraficaLineas from "./components/GraficaLineas.vue";
 import NavBar from "./components/NavBar.vue";
 import TopBar from "./components/TopBar.vue";
 import SupNavbar from "./components/SupNavbar.vue";
@@ -88,6 +94,7 @@ export default {
     TopBar,
     SupNavbar,
     VueLogin,
+    GraficaLineas,
   },
   data() {
     return {
@@ -95,31 +102,8 @@ export default {
       Sede: "Sede",
       id: 0,
       login: false,
-      grupos: [
-        {
-          id: 1,
-          name: "Grupo 1",
-        },
-        {
-          id: 2,
-          name: "Grupo 2",
-        },
-        {
-          id: 3,
-          name: "Grupo 3",
-        },
-      ],
-      arduinos: [
-        {
-          id: "ESP32-0003",
-        },
-        {
-          id: "ESP32-0002",
-        },
-        {
-          id: "ESP32-0001",
-        },
-      ],
+      grupos: [],
+      arduinos: [],
     };
   },
   methods: {
@@ -163,6 +147,28 @@ export default {
         let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
+    },
+    loadRegisters(grupo, objeto) {
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
+      fetch(
+        `http://localhost:5000/empresa/${empresa}/sede/${sede}/grupo/${grupo}/ejemplar/${objeto}/registers`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          let labels = [];
+          let temperaturas = [];
+          let humedades = [];
+          data.forEach((element) => {
+            labels.push(element.date);
+            temperaturas.push(element.temperature);
+            humedades.push(element.humidity);
+          });
+          this.labels = labels;
+          this.temperaturas = temperaturas;
+          this.humedades = humedades;
+        });
     },
   },
   created() {
@@ -268,9 +274,9 @@ export default {
   z-index: -100000;
 }
 
-.show div {
+.show .container-grafica,
+.show .container-crear-ejemplar {
   width: 50%;
-  height: 50%;
   background-color: #fff;
   border-radius: 10px;
   display: flex;
