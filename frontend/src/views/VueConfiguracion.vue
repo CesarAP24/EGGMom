@@ -4,43 +4,6 @@
     <div class="opciones-container">
       <div class="campo">
         <div class="header">
-          <h3>¿Cambiar credenciales?</h3>
-        </div>
-        <div class="content">
-          <form id="Cambiar_credenciales">
-            <label>Credenciales actuales: </label>
-            <input
-              type="text"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Credenciales actuales"
-            />
-            <label>Nuevas credenciales: </label>
-            <input
-              type="password"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Nuevas credenciales"
-            />
-            <label>Repetir nuevas credenciales: </label>
-            <input
-              type="password"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Repetir nuevas credenciales"
-            />
-            <button
-              type="submit"
-              @click="CambiarCredenciales"
-              id="btn-cambiar-credenciales"
-            >
-              Cambiar
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="campo">
-        <div class="header">
           <h3>¿Cambiar idioma?</h3>
         </div>
         <div class="content">
@@ -70,58 +33,6 @@ export default {
   name: "VueConfiguracion",
   props: {
     loadCookie: Function,
-  },
-  methods: {
-    // toco crear rutas y hacer que funciones :(
-    CambiarCredenciales(e) {
-      e.preventDefault();
-      let form = document.getElementById("Cambiar_credenciales");
-      form = new FormData(form);
-      form = Object.fromEntries(form.entries());
-      console.log(form);
-      let credencialesNuevas = form["credenciales"];
-      form = JSON.stringify(form);
-
-      let empresa = this.loadCookie("empresa");
-      let sede = this.loadCookie("token");
-
-      fetch("http://localhost:5000/empresa/" + empresa + "/sedes/" + sede, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: form,
-      })
-        .then((response) => {
-          if (response.success == false) {
-            console.log("error");
-          } else {
-            console.log("success");
-            return response.json();
-          }
-        })
-        .then(() => {
-          //json a enviar
-          const SedeActualizada = {
-            empresa: empresa,
-            sede: sede,
-            credenciales: credencialesNuevas,
-          };
-          return fetch(
-            "http://localhost:5000/empresa/" + empresa + "/sedes/" + sede,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(SedeActualizada),
-            }
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
 };
 </script>
