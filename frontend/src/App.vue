@@ -52,9 +52,9 @@
         </button>
       </div>
       <div class="crear-ejemplar-form">
-        <form>
+        <form id="crear-ejemplar-formulario">
           <label for="name">Nombre</label>
-          <input type="text" id="name" name="name" placeholder="Nombre" />
+          <input type="text" id="name" name="nombre" placeholder="Nombre" />
           <label for="grupo-select">Grupo</label>
           <select name="grupo" id="grupo-select">
             <option v-for="grupo in grupos" :key="grupo.id" :value="grupo.name">
@@ -62,7 +62,7 @@
             </option>
           </select>
           <label for="arduino-selector">Arduino</label>
-          <select name="arduino" id="arduino-selector">
+          <select name="arduino_id" id="arduino-selector">
             <option
               v-for="arduino in arduinos"
               :key="arduino.id"
@@ -71,7 +71,9 @@
               {{ arduino.id }}
             </option>
           </select>
-          <button type="submit">Crear</button>
+          <button type="submit" id="btn-crear-ejemplar" @click="crearEjemplar">
+            Crear
+          </button>
         </form>
       </div>
     </div>
@@ -148,6 +150,117 @@ export default {
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
     },
+    loadGrupos() {
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          this.grupos = [];
+          let grupos = data["data"];
+          grupos.forEach((grupo) => {
+            //llenar la lista Grupos
+            this.grupos.push({
+              id: grupo["grupo_id"],
+              name: grupo["grupo_id"],
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    loadArduinos() {
+      let empresa = this.loadCookie("empresa");
+      fetch("http://localhost:5000/empresa/" + empresa + "/arduinos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status == 200) {
+            alert("cargado correctamente");
+          } else if (data.status == 404) {
+            console.log("No hay arduinos disponibles");
+          }
+          this.arduinos = [];
+          let arduinos = data["data"];
+          arduinos.forEach((arduino) => {
+            //llenar la lista Grupos
+            console.log(arduino);
+            if (arduino["available"]) {
+              this.arduinos.push({
+                id: arduino["ARDUINO_ID"],
+              });
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    crearEjemplar(e) {
+      e.preventDefault();
+      let form = document.getElementById("crear-ejemplar-formulario");
+      form = new FormData(form);
+      form = Object.fromEntries(form);
+      console.log("grupito: " + form["grupo"]);
+      let grupo = form["grupo"];
+      form = JSON.stringify(form);
+      console.log(form);
+      //disable
+      const button = document.getElementById("btn-crear-ejemplar");
+      button.disabled = true;
+
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos/" +
+          grupo +
+          "/objetos",
+        {
+          method: "POST",
+          body: form,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.success == true) {
+            alert("Ejemplar creado correctamente");
+            button.disabled = false;
+          } else {
+            alert("Error al crear el ejemplar");
+            button.disabled = false;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error al crear el ejemplar");
+          button.disabled = false;
+        });
+    },
     loadRegisters(grupo, objeto) {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
@@ -172,6 +285,8 @@ export default {
     },
   },
   created() {
+    this.loadGrupos();
+    this.loadArduinos();
     if (this.loadCookie("token")) {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("sede_name");

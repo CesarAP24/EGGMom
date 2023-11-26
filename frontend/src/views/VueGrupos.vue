@@ -11,6 +11,7 @@
         :humedadMax="grupo.humedadMax"
       />
     </div>
+    <PantallaCarga v-if="cargando" />
     <!--form-->
     <div class="form">
       <h2>Crea un grupo:</h2>
@@ -75,12 +76,17 @@
 
 <script>
 import CardGroup from "@/components/CardGroup.vue";
+import PantallaCarga from "@/components/PantallaCarga.vue";
 export default {
   name: "VueGrupos",
-  components: { CardGroup },
+  components: {
+    CardGroup,
+    PantallaCarga,
+  },
   data() {
     return {
       grupos: [],
+      cargando: false,
     };
   },
   props: {
@@ -90,16 +96,50 @@ export default {
   methods: {
     crearGrupo(e) {
       e.preventDefault();
+      document.getElementById("errorCrearGrupo").innerHTML = "";
+
       let form = document.getElementById("formulario-grupo-bonito");
       form = new FormData(form);
       form = Object.fromEntries(form);
+      console.log(form);
+      //verificaciones
+      if (
+        form["nombre"] === "" ||
+        form["temperatura_max"] === "" ||
+        form["temperatura_min"] === "" ||
+        form["humedad_max"] === "" ||
+        form["humedad_min"] === ""
+      ) {
+        document.getElementById("errorCrearGrupo").innerHTML =
+          "Llenar todos los campos";
+        return;
+      } else {
+        if (form["temperatura_max"] != parseInt(form["temperatura_max"])) {
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Temperatura máxima debe ser un número";
+          return;
+        }
+        if (form["temperatura_min"] != parseInt(form["temperatura_min"])) {
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Temperatura mínima debe ser un número";
+          return;
+        }
+        if (form["humedad_max"] != parseInt(form["humedad_max"])) {
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Humedad máxima debe ser un número";
+          return;
+        }
+        if (form["humedad_min"] != parseInt(form["humedad_min"])) {
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Humedad mínima debe ser un número";
+          return;
+        }
+      }
       form = JSON.stringify(form);
 
       //poner boton disables
       const button = document.getElementById("btn-create-group");
       button.disabled = true;
-
-      document.getElementById("errorCrearGrupo").innerHTML = "";
 
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
@@ -130,6 +170,14 @@ export default {
             humedadMin: data["data"]["humedad"]["min"],
             humedadMax: data["data"]["humedad"]["max"],
           });
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Grupo creado con éxito";
+          //pausar 3 segundos
+          setTimeout(() => {
+            document.getElementById("errorCrearGrupo").innerHTML = "";
+            //limpiar formulario
+            document.getElementById("formulario-grupo-bonito").reset();
+          }, 3000);
         })
         .catch((err) => {
           console.log(err);
@@ -162,12 +210,14 @@ export default {
               humedadMax: grupo["humedad"]["max"],
             });
           });
+          this.cargando = false;
         })
         .catch((err) => console.log(err));
     },
   },
   mounted() {
     let sede = this.loadCookie("token");
+    this.cargando = true;
     this.loadGroups(sede);
   },
 };
@@ -177,8 +227,8 @@ export default {
 #errorCrearGrupo {
   color: red;
   font-size: 15px;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .grupos-container {
@@ -282,6 +332,7 @@ h2 {
   align-items: center;
   justify-content: center;
   margin: 10px;
+  margin-top: 0px;
 }
 .boton button {
   margin-left: 12px;

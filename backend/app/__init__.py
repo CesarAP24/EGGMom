@@ -417,18 +417,17 @@ def create_app(test_config=None):
     def create_objeto(tenant_id, sede_id, grupo_id):
         code = 200
         try:
-            data = request.form
+            data = request.json
             table = dynamoDB.Table('Objetos')
             item = {
                 'tenant_id+sede_id+grupo_id': tenant_id + "+" + sede_id + "+" + grupo_id,
                 'objeto_id': data['nombre'],
                 'ARDUINO_ID': data['arduino_id'],
             }
-
-
+            
             #revisar el grupo
             table = dynamoDB.Table('Grupos')
-            response = table.scan(
+            response = table.s  an(
                 FilterExpression=Attr('tenant_id+sede_id').eq(tenant_id + "+" + sede_id) & Attr('grupo_id').eq(grupo_id)
             )
 
