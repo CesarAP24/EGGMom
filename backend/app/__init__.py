@@ -448,7 +448,7 @@ def create_app(test_config=None):
                 'objeto_id': data['nombre'],
                 'ARDUINO_ID': data['arduino_id'],
             }
-            
+
             #revisar el grupo
             table = dynamoDB.Table('Grupos')
             response = table.scan(
