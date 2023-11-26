@@ -24,6 +24,7 @@
               humMin="30"
               forcePeligro="true"
               NoLoadData="true"
+              noClick="true"
             />
           </div>
           <div class="subContainer-cards">
@@ -37,6 +38,7 @@
               humMax="50"
               humMin="30"
               NoLoadData="true"
+              noClick="true"
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div
     :class="'CardInfo' + (peligro ? ' peligro' : '')"
-    @click="showHideWindow(id)"
+    @click="showWindow"
     :style="hideIfSecure & !peligro ? 'display: none' : ''"
   >
     <div class="TopContent">
@@ -51,6 +51,7 @@ export default {
     hideIfSecure: Boolean,
     NoLoadData: Boolean,
     forcePeligro: Boolean,
+    noClick: Boolean,
   },
   methods: {
     loadCards() {
@@ -65,6 +66,12 @@ export default {
       setInterval(() => {
         this.actualizarDatos(this.GroupName, this.id);
       }, 3000);
+    },
+    showWindow() {
+      if (this.noClick) {
+        return;
+      }
+      this.showHideWindow(this.GroupName, this.id);
     },
     actualizarDatos(grupo, id_objeto) {
       let empresa = this.loadCookie("empresa");

@@ -1,7 +1,6 @@
 # Libraries
 from flask_cors import CORS
 from .utilities import *
-from config.local import config
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 
@@ -19,10 +18,35 @@ import sys
 import uuid
 import json
 import os
+import requests
+import time
 from datetime import datetime
 from datetime import timedelta
 
+#credenciales de aws
+url = 'https://eggmom.s3.amazonaws.com/credentials.txt'
+r = requests.get(url)
+texto = r.text
 
+print(texto)
+
+
+texto = texto.split('\n')
+config = {}
+
+for line in range(len(texto)):
+    if line == 0:
+        config['aws_access_key_id'] = texto[line].split('=')[1][0:-1]
+    elif line == 1:
+        config['aws_secret_access_key'] = texto[line].split('=')[1][0:-1]
+    elif line == 2:
+        config['aws_session_token'] = texto[line].split('=')[1]
+
+print(config)
+# wait for dynamodb to be ready
+time.sleep(5)
+
+# DynamoDB
 dynamoDB = boto3.resource(
     'dynamodb', 
     aws_access_key_id=config['aws_access_key_id'], 
@@ -520,6 +544,43 @@ def create_app(test_config=None):
             abort(code)
         else:
             return jsonify({"success": True, "data": data, "token": sede['sede_id']}), code
+
+    #ruta para suscribir un correo
+    @app.route('/empresa/<tenant_id>/sedes/<sede_id>/suscribir/<email>', methods=['POST'])
+    def suscribir(tenant_id, sede_id, email):
+        code = 200
+        aws_access_key_id = config['aws_access_key_id']
+        aws_secret_access_key = config['aws_secret_access_key']
+        aws_session_token = config['aws_session_token']
+        region = 'us-east-1'
+        
+        try:
+            # Crear un cliente SNS utilizando boto3 y las credenciales proporcionadas
+            sns_client = boto3.client('sns', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region)
+
+            # ARN del tema al que deseas suscribirte
+            topic_arn = "arn:aws:sns:us-east-1:859485701311:RegisterSender"
+
+            # Dirección del endpoint al que se enviarán las notificaciones
+            correo = email
+
+            # Configurar la suscripción utilizando el cliente SNS
+            response = sns_client.subscribe(
+                TopicArn=topic_arn,
+                Protocol="email",
+                Endpoint=correo
+            )
+
+            # Imprimir la respuesta del servidor
+            print(response)
+            data = response
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+            return jsonify({"success": False, "message": "No se pudo suscribir el correo"}), code
+
+        return jsonify({"success": True, "data": response}), code
+
 
     # HANDLE ERROR ---------------------------------------------------------
     @app.errorhandler(404)
