@@ -4,37 +4,31 @@
     <div class="opciones-container">
       <div class="campo">
         <div class="header">
-          <h3>¿Cambiar credenciales?</h3>
+          <h3>Subscribir correo electrónico:</h3>
         </div>
         <div class="content">
-          <form id="Cambiar_credenciales">
-            <label>Credenciales actuales: </label>
+          <form id="suscribir-correo" @submit="SuscribirCorreo">
+            <label>Suscribir: </label>
             <input
-              type="text"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Credenciales actuales"
+              type="email"
+              name="correo"
+              id="correo-input"
+              placeholder="correo@email.com"
             />
-            <label>Nuevas credenciales: </label>
+            <label>Repetir correo: </label>
             <input
-              type="password"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Nuevas credenciales"
+              type="email"
+              name="correo-again"
+              id="correo-again-input"
+              placeholder="correo@email.com"
             />
-            <label>Repetir nuevas credenciales: </label>
-            <input
-              type="password"
-              name="credenciales"
-              id="credenciales"
-              placeholder="Repetir nuevas credenciales"
-            />
+            <p class="error" id="error-correo"></p>
             <button
               type="submit"
-              @click="CambiarCredenciales"
-              id="btn-cambiar-credenciales"
+              id="suscribir-correo-button"
+              @click="SuscribirCorreo"
             >
-              Cambiar
+              Suscribir
             </button>
           </form>
         </div>
@@ -46,19 +40,8 @@
         <div class="content">
           <select>
             <option value="es">Español</option>
-            <option value="en">Inglés</option>
           </select>
-        </div>
-      </div>
-      <div class="campo">
-        <div class="header">
-          <h3>¿Permitir correos?</h3>
-        </div>
-        <div class="content">
-          <select>
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
+          <button id="cambiar-idioma-button">Cambiar</button>
         </div>
       </div>
     </div>
@@ -72,55 +55,49 @@ export default {
     loadCookie: Function,
   },
   methods: {
-    // toco crear rutas y hacer que funciones :(
-    CambiarCredenciales(e) {
+    SuscribirCorreo(e) {
       e.preventDefault();
-      let form = document.getElementById("Cambiar_credenciales");
-      form = new FormData(form);
-      form = Object.fromEntries(form.entries());
-      console.log(form);
-      let credencialesNuevas = form["credenciales"];
-      form = JSON.stringify(form);
-
-      let empresa = this.loadCookie("empresa");
-      let sede = this.loadCookie("token");
-
-      fetch("http://localhost:5000/empresa/" + empresa + "/sedes/" + sede, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: form,
-      })
-        .then((response) => {
-          if (response.success == false) {
-            console.log("error");
-          } else {
-            console.log("success");
-            return response.json();
-          }
+      const correo = document.getElementById("correo-input").value;
+      const correoAgain = document.getElementById("correo-again-input").value;
+      document.getElementById("error-correo").innerHTML = "";
+      if (correo === "" || correoAgain === "") {
+        document.getElementById("error-correo").innerHTML =
+          "Debe llenar todos los campos";
+      } else if (correo === correoAgain) {
+        const empresa = this.loadCookie("token");
+        const sede = this.loadCookie("token");
+        const url =
+          "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/suscribir/" +
+          correo;
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .then(() => {
-          //json a enviar
-          const SedeActualizada = {
-            empresa: empresa,
-            sede: sede,
-            credenciales: credencialesNuevas,
-          };
-          return fetch(
-            "http://localhost:5000/empresa/" + empresa + "/sedes/" + sede,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(SedeActualizada),
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              alert("Correo suscrito");
+              document.getElementById("suscribir-correo").reset();
+            } else {
+              document.getElementById("error-correo").innerHTML =
+                "El correo ya está suscrito";
             }
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        document.getElementById("error-correo").innerHTML =
+          "Los correos no coinciden";
+      }
     },
   },
 };
@@ -197,7 +174,8 @@ h1 {
   width: 100%;
   margin-bottom: 20px;
 }
-#btn-cambiar-credenciales {
+#suscribir-correo-button,
+#cambiar-idioma-button {
   width: 20%;
   padding: 10px;
   border-radius: 5px;
@@ -208,8 +186,11 @@ h1 {
   background-color: #ffffff;
   cursor: pointer;
   transition: 0.3s;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-#btn-cambiar-credenciales:hover {
+#suscribir-correo-button:hover,
+#cambiar-idioma-button:hover {
   background-color: #ff6320;
   color: #ffffff;
 }
@@ -229,5 +210,12 @@ select {
   align-items: center;
   justify-content: center;
   width: 50%;
+}
+
+.error {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ff6320;
+  margin-bottom: 10px;
 }
 </style>

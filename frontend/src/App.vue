@@ -20,8 +20,10 @@
   </div>
   <div class="show notShow" id="ventanaEmergente">
     <div class="container-grafica">
-      <h1>Ejemplar Data</h1>
-      <button @click="showHideWindow(-1, -1)">cerrar</button>
+      <div class="top-container-grafica">
+        <h1>Ejemplar Data</h1>
+        <button @click="showHideWindow(-1, -1)">cerrar</button>
+      </div>
       <GraficaLineas
         v-if="labels.length > 0 && !cargandoEmergente"
         :labels="labels"
@@ -426,6 +428,17 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.top-container-grafica {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #closeCreateWindow {
