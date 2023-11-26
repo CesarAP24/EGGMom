@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import LoadingDraw from "@/components/LoadingDraw.vue";
 export default {
   name: "VueConfiguracion",
   props: {

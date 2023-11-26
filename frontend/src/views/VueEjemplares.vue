@@ -11,6 +11,7 @@
         Crear Ejemplar
       </button>
     </div>
+    <PantallaCarga v-if="cargando" />
     <div class="cards">
       <CardInfo
         v-for="ejemplar in Ejemplares"
@@ -37,14 +38,16 @@
 
 <script>
 import CardInfo from "@/components/CardInfo.vue";
+import PantallaCarga from "@/components/PantallaCarga.vue";
 export default {
   name: "VueEjemplares",
-  components: { CardInfo },
+  components: { CardInfo, PantallaCarga },
   data() {
     return {
       Ejemplares: [],
       Grupos: [],
       SelectedGroup: "",
+      cargando: false,
     };
   },
   props: {
@@ -98,6 +101,7 @@ export default {
                     humMin: grupo["humedad"]["min"],
                   });
                 });
+                this.cargando = false;
               })
               .catch((err) => console.log(err));
           });
@@ -106,6 +110,7 @@ export default {
   },
   mounted() {
     let sede = this.loadCookie("token");
+    this.cargando = true;
     this.loadEjemplares(sede);
   },
 };

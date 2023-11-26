@@ -23,7 +23,6 @@ export default {
   width: 100%;
   height: 618px;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 .carga-icono {
   width: 100%;

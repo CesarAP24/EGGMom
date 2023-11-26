@@ -427,7 +427,7 @@ def create_app(test_config=None):
             
             #revisar el grupo
             table = dynamoDB.Table('Grupos')
-            response = table.s  an(
+            response = table.scan(
                 FilterExpression=Attr('tenant_id+sede_id').eq(tenant_id + "+" + sede_id) & Attr('grupo_id').eq(grupo_id)
             )
 
