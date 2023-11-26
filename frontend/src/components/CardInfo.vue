@@ -49,9 +49,17 @@ export default {
     humMin: Number,
     loadCookie: Function,
     hideIfSecure: Boolean,
+    NoLoadData: Boolean,
+    forcePeligro: Boolean,
   },
   methods: {
     loadCards() {
+      if (this.NoLoadData) {
+        if (this.forcePeligro) {
+          this.peligro = true;
+        }
+        return;
+      }
       this.actualizarDatos(this.GroupName, this.id);
 
       setInterval(() => {
@@ -118,13 +126,66 @@ export default {
 
 <style scoped>
 .CardInfo {
-  width: 190px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border-radius: 5px;
   margin: 0 30px 40px 30px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+.peligro:hover {
+  animation: none;
+}
+
+.peligro {
+  animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  10% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  20% {
+    transform: translateX(0px) rotate(1deg);
+  }
+  30% {
+    transform: translateX(1px) rotate(0deg);
+  }
+  40% {
+    transform: translateX(0px) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  60% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  70% {
+    transform: translateX(1px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(0px) rotate(1deg);
+  }
+  90% {
+    transform: translateX(-1px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(0px) rotate(-1deg);
+  }
+}
+
+.CardInfo:hover {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .SupContent {
