@@ -2,19 +2,20 @@
   <div class="login-container">
     <div class="login-form">
       <h1>Inicio de sesión</h1>
-      <form>
+      <form id="formulario-login" @submit.prevent="login">
         <div class="input-container">
           <label for="empresa">Empresa:</label>
           <input type="text" id="empresa" />
         </div>
         <div class="input-container">
           <label for="sede">Sede:</label>
-          <input type="text" id="sede" />
+          <input type="text" id="sede-input" />
         </div>
         <div class="input-container">
           <label for="credenciales">credenciales:</label>
           <input type="password" id="credenciales" />
         </div>
+        <p id="error"></p>
         <div class="boton">
           <button type="submit">Iniciar sesión</button>
         </div>
@@ -26,10 +27,63 @@
 <script>
 export default {
   name: "VueLogin",
+  props: {
+    storeCookie: Function,
+  },
+  methods: {
+    login() {
+      const empresa = document.getElementById("empresa").value;
+      const sede = document.getElementById("sede-input").value;
+      const credenciales = document.getElementById("credenciales").value;
+
+      if (empresa == "" || sede == "" || credenciales == "") {
+        document.getElementById("error").innerHTML =
+          "Por favor, rellene todos los campos";
+        return;
+      }
+
+      let data = {
+        name: sede,
+        password: credenciales,
+      };
+
+      data = JSON.stringify(data);
+      console.log(data);
+
+      fetch("http://localhost:5000/empresa/" + empresa + "/login", {
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success == true) {
+            document.getElementById("error").innerHTML = "";
+            this.storeCookie("token", data.token);
+            this.storeCookie("empresa", empresa);
+            this.storeCookie("sede_name", sede);
+            this.storeCookie("sede_id", data.token);
+            window.location.href = "/";
+          } else {
+            document.getElementById("error").innerHTML = data.message;
+          }
+        });
+    },
+  },
 };
 </script>
 
 <style scoped>
+#error {
+  color: red;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
 .login-container {
   width: 100%;
   height: 100%;

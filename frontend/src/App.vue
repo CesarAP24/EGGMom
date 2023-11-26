@@ -1,17 +1,19 @@
 <template>
   <div class="container">
     <div class="NavBarContainer" id="NavBarContainer">
-      <NavBar />
+      <NavBar :clearCookie="clearCookie" :clearAllCookies="clearAllCookies" />
     </div>
     <div class="SupNavbarContainer" id="SupNavbarContainer">
       <sup-navbar />
     </div>
     <div class="main">
-      <TopBar empresa="Empresa" sede="sede" />
+      <TopBar :empresa="Empresa" :sede="Sede" />
       <div class="content">
         <router-view
           :showHideWindow="showHideWindow"
           :showCrearEjemplar="showCrearEjemplar"
+          :storeCookie="storeCookie"
+          :loadCookie="loadCookie"
         />
       </div>
     </div>
@@ -70,7 +72,7 @@
     </div>
   </div>
   <div class="login" :style="{ display: login ? 'none' : 'flex' }">
-    <VueLogin />
+    <VueLogin :storeCookie="storeCookie" />
   </div>
 </template>
 
@@ -89,6 +91,8 @@ export default {
   },
   data() {
     return {
+      Empresa: "Empresa",
+      Sede: "Sede",
       id: 0,
       login: false,
       grupos: [
@@ -130,9 +134,49 @@ export default {
       let show2 = document.querySelector("#CrearEjemplar");
       show2.classList.toggle("notShow");
     },
+    loadCookie(name) {
+      let nameEQ = name + "=";
+      let ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) {
+          return c.substring(nameEQ.length, c.length);
+        }
+      }
+      return null;
+    },
+    storeCookie(name, value) {
+      let date = new Date();
+      date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+      let expires = "; expires=" + date.toUTCString();
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    },
+    clearCookie(name) {
+      document.cookie = name + "=; Max-Age=-99999999;";
+    },
+    clearAllCookies() {
+      let cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        let eqPos = cookie.indexOf("=");
+        let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+    },
   },
   created() {
-    if (document.cookie) {
+    if (this.loadCookie("token")) {
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("sede_name");
+      if (empresa) {
+        //mayusculas
+        empresa = empresa.charAt(0).toUpperCase() + empresa.slice(1);
+        this.Empresa = empresa;
+      }
+      if (sede) {
+        this.Sede = sede;
+      }
       this.login = true;
     } else {
       this.login = false;

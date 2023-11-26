@@ -480,6 +480,48 @@ def create_app(test_config=None):
         else:
             return jsonify({"success": True, "data": data}), code
 
+
+    # get sede_id
+    @app.route('/empresa/<tenant_id>/login', methods=['POST'])
+    def login(tenant_id):
+        code = 200
+        try:
+            data = request.json
+
+            tableSedes = dynamoDB.Table('Sede')
+            response = tableSedes.scan(
+                FilterExpression=Attr('tenant_id').eq(tenant_id) & Attr('Nombre').eq(data['name'])
+            )
+
+            sede = response
+            if sede:
+                sede = response['Items']
+                if len(sede) == 0:
+                    return jsonify({"success": False, "message": "No existe la sede"}), 400
+                else:
+                    if sede[0]['sede_id'] != data['password']:
+                        return jsonify({"success": False, "message": "Contraseña incorrecta"}), 400
+                    else:
+                        sede = sede[0]
+            else:
+                code = 404
+                message = "No se pudo acceder a la tabla"
+                return jsonify({"success": False, "message": message}), code
+
+        except Exception as e:
+            print(sys.exc_info())
+            code = 500
+    
+        if code == 400:
+
+            return jsonify({"success": False, "message": message}), code
+        elif code == 409:
+            return jsonify({"success": False, "message": message}), code
+        elif code != 200:
+            abort(code)
+        else:
+            return jsonify({"success": True, "data": data, "token": sede['sede_id']}), code
+
     # HANDLE ERROR ---------------------------------------------------------
     @app.errorhandler(404)
     def not_found(error):

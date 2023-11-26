@@ -84,6 +84,7 @@ export default {
   },
   props: {
     showHideWindow: Function,
+    loadCookie: Function,
   },
   methods: {
     crearGrupo(e) {
@@ -120,7 +121,14 @@ export default {
         .catch((err) => console.log(err));
     },
     loadGroups(sede) {
-      fetch("http://localhost:5000/empresa/utec/sedes/" + sede + "/grupos")
+      let empresa = this.loadCookie("empresa");
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos"
+      )
         .then((res) => res.json())
         .then((data) => {
           this.grupos = [];
@@ -141,7 +149,8 @@ export default {
     },
   },
   mounted() {
-    this.loadGroups("cs_facu");
+    let sede = this.loadCookie("token");
+    this.loadGroups(sede);
   },
 };
 </script>
