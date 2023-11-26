@@ -2,6 +2,7 @@
   <div
     :class="'CardInfo' + (peligro ? ' peligro' : '')"
     @click="showHideWindow(id)"
+    :style="hideIfSecure & !peligro ? 'display: none' : ''"
   >
     <div class="TopContent">
       <h2>{{ EjemplarName }}</h2>
@@ -46,6 +47,8 @@ export default {
     tempMin: Number,
     humMax: Number,
     humMin: Number,
+    loadCookie: Function,
+    hideIfSecure: Boolean,
   },
   methods: {
     loadCards() {
@@ -53,11 +56,17 @@ export default {
 
       setInterval(() => {
         this.actualizarDatos(this.GroupName, this.id);
-      }, 100000);
+      }, 3000);
     },
     actualizarDatos(grupo, id_objeto) {
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
       fetch(
-        "http://localhost:5000/empresa/utec/sedes/cs_facu/grupos/" +
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos/" +
           grupo +
           "/objetos/" +
           id_objeto +

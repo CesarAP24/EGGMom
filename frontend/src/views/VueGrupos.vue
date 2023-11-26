@@ -62,6 +62,7 @@
             />
           </div>
         </div>
+        <p id="errorCrearGrupo"></p>
         <div class="boton">
           <button type="submit" @click="crearGrupo" id="btn-create-group">
             Crear
@@ -98,13 +99,25 @@ export default {
       const button = document.getElementById("btn-create-group");
       button.disabled = true;
 
-      fetch("http://localhost:5000/empresa/utec/sedes/cs_facu/grupos", {
-        method: "POST",
-        body: form,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      document.getElementById("errorCrearGrupo").innerHTML = "";
+
+      let empresa = this.loadCookie("empresa");
+      let sede = this.loadCookie("token");
+
+      fetch(
+        "http://localhost:5000/empresa/" +
+          empresa +
+          "/sedes/" +
+          sede +
+          "/grupos",
+        {
+          method: "POST",
+          body: form,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -118,7 +131,12 @@ export default {
             humedadMax: data["data"]["humedad"]["max"],
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          button.disabled = false;
+          document.getElementById("errorCrearGrupo").innerHTML =
+            "Error al crear el grupo";
+        });
     },
     loadGroups(sede) {
       let empresa = this.loadCookie("empresa");
@@ -156,6 +174,13 @@ export default {
 </script>
 
 <style scoped>
+#errorCrearGrupo {
+  color: red;
+  font-size: 15px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
 .grupos-container {
   display: flex;
   flex-direction: column;

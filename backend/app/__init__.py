@@ -148,7 +148,7 @@ def create_app(test_config=None):
                 FilterExpression=Attr('tenant_id+sede_id+grupo_id+objeto_id').eq(partition_key)
             )
             data = response['Items']
-            data = sorted(data, key=lambda k: k['fecha_hora'], reverse=True)
+            data = sorted(data, key=lambda k: k['fecha_hora'], reverse=False)
             if data:
                 if len(data) == 0:
                     code = 404
