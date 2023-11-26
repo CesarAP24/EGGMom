@@ -1,7 +1,6 @@
 # Libraries
 from flask_cors import CORS
 from .utilities import *
-from config.local import config
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 
@@ -19,10 +18,35 @@ import sys
 import uuid
 import json
 import os
+import requests
+import time
 from datetime import datetime
 from datetime import timedelta
 
+#credenciales de aws
+url = 'https://eggmom.s3.amazonaws.com/credentials.txt'
+r = requests.get(url)
+texto = r.text
 
+print(texto)
+
+
+texto = texto.split('\n')
+config = {}
+
+for line in range(len(texto)):
+    if line == 0:
+        config['aws_access_key_id'] = texto[line].split('=')[1][0:-1]
+    elif line == 1:
+        config['aws_secret_access_key'] = texto[line].split('=')[1][0:-1]
+    elif line == 2:
+        config['aws_session_token'] = texto[line].split('=')[1]
+
+print(config)
+# wait for dynamodb to be ready
+time.sleep(5)
+
+# DynamoDB
 dynamoDB = boto3.resource(
     'dynamodb', 
     aws_access_key_id=config['aws_access_key_id'], 

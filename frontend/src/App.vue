@@ -21,12 +21,19 @@
   <div class="show notShow" id="ventanaEmergente">
     <div class="container-grafica">
       <h1>Ejemplar Data</h1>
-      <button @click="showHideWindow(0)">cerrar</button>
+      <button @click="showHideWindow(-1, -1)">cerrar</button>
       <GraficaLineas
+        v-if="labels.length > 0 && !cargandoEmergente"
         :labels="labels"
         :temperaturas="temperaturas"
         :humedades="humedades"
       />
+      <div class="container-carga-grafica" v-if="cargandoEmergente">
+        <PantallaCarga />
+      </div>
+      <div v-else>
+        <p v-if="labels.length == 0">No hay registros</p>
+      </div>
     </div>
   </div>
   <div class="show notShow" id="CrearEjemplar">
@@ -89,6 +96,7 @@ import NavBar from "./components/NavBar.vue";
 import TopBar from "./components/TopBar.vue";
 import SupNavbar from "./components/SupNavbar.vue";
 import VueLogin from "./views/VueLogin.vue";
+import PantallaCarga from "./components/PantallaCarga.vue";
 export default {
   name: "App",
   components: {
@@ -97,20 +105,33 @@ export default {
     SupNavbar,
     VueLogin,
     GraficaLineas,
+    PantallaCarga,
   },
   data() {
     return {
       Empresa: "Empresa",
       Sede: "Sede",
-      id: 0,
       login: false,
       grupos: [],
       arduinos: [],
+      labels: [],
+      temperaturas: [],
+      humedades: [],
+      cargandoEmergente: false,
     };
   },
   methods: {
-    showHideWindow(id) {
-      this.id = id;
+    showHideWindow(grupo, objeto) {
+      if (objeto == -1) {
+        //cerrar ventana
+        let show = document.querySelector("#ventanaEmergente");
+        show.classList.toggle("notShow");
+        return;
+      }
+      //cargar registros
+      this.cargandoEmergente = true;
+      this.loadRegisters(grupo, objeto);
+
       //ocultar o mostrar ventana
       let show = document.querySelector("#ventanaEmergente");
       show.classList.toggle("notShow");
@@ -265,22 +286,29 @@ export default {
       let empresa = this.loadCookie("empresa");
       let sede = this.loadCookie("token");
       fetch(
-        `http://localhost:5000/empresa/${empresa}/sede/${sede}/grupo/${grupo}/ejemplar/${objeto}/registers`
+        `http://localhost:5000/empresa/${empresa}/sedes/${sede}/grupos/${grupo}/objetos/${objeto}/registros`
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          let labels = [];
-          let temperaturas = [];
-          let humedades = [];
-          data.forEach((element) => {
-            labels.push(element.date);
-            temperaturas.push(element.temperature);
-            humedades.push(element.humidity);
-          });
-          this.labels = labels;
-          this.temperaturas = temperaturas;
-          this.humedades = humedades;
+          this.cargandoEmergente = false;
+          if (data.success == false) {
+            this.labels = [];
+            this.temperaturas = [];
+            this.humedades = [];
+          } else {
+            this.labels = [];
+            this.temperaturas = [];
+            this.humedades = [];
+            data.data.forEach((element) => {
+              this.labels.push(element["fecha_hora"]);
+              this.temperaturas.push(element.temperatura);
+              this.humedades.push(element.humedad);
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.cargandoEmergente = false;
         });
     },
   },
@@ -548,5 +576,54 @@ export default {
   .container .main {
     width: 100%;
   }
+}
+
+/*styles for Ventana Emergente*/
+.container-grafica {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-grafica h1 {
+  font-size: 30px;
+  font-weight: 550;
+  color: #333;
+  margin: 20px 0px;
+}
+
+.container-grafica button {
+  margin: 20px 0px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: white;
+  background-color: #ff6320;
+  border: 1px solid #ff6320;
+  transition: 0.3s;
+}
+
+.container-grafica button:hover {
+  background-color: #fff;
+  color: #ff6320;
+}
+
+.container-carga-grafica {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-grafica p {
+  font-size: 20px;
+  font-weight: 550;
+  color: #333;
+  margin: 20px 0px;
 }
 </style>
