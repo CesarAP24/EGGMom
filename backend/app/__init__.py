@@ -61,7 +61,7 @@ def create_app(test_config=None):
     app.secret_key = 'pneumonoultramicroscopicsilicovolcanoconiosis'
 
     with app.app_context():
-        CORS(app, origins=['http://hosteando' ,'http://3.211.42.61:3000', 'http://3.211.42.61:5000', 'http://3.211.42.61:8080'], supports_credentials=True)
+        CORS(app, origins=['http://hosteando' ,'http://3.212.47.164:3000', 'http://3.212.47.164:5000', 'http://3.212.47.164:8080'], supports_credentials=True)
 
     @app.after_request
     def after_request(response):

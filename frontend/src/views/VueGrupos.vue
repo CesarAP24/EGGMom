@@ -145,7 +145,7 @@ export default {
       let sede = this.loadCookie("token");
 
       fetch(
-        "http://3.211.42.61:5000/empresa/" +
+        "http://3.212.47.164:5000/empresa/" +
           empresa +
           "/sedes/" +
           sede +
@@ -189,7 +189,7 @@ export default {
     loadGroups(sede) {
       let empresa = this.loadCookie("empresa");
       fetch(
-        "http://3.211.42.61:5000/empresa/" +
+        "http://3.212.47.164:5000/empresa/" +
           empresa +
           "/sedes/" +
           sede +
